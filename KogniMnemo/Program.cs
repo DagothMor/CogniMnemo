@@ -9,8 +9,8 @@ namespace KogniMnemo
 
 		static void Main(string[] args)
 		{
-			//CardController.Add("questiontest", "answertest");
-			DataBaseInitialization.Start();
+			CardController.AddAuthomatedCard("questiontest", "answertest");
+			//DataBaseInitialization.Start();
 
 			//CardController.GetAllPathFilesInDataBase();
 			//CheckForExistFolder();

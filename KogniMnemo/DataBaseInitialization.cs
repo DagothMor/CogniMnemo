@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CorgiMnemo
 {
@@ -28,12 +26,6 @@ namespace CorgiMnemo
 				if (CardController.AutomatedInsertCardTextValidation(bufferlist[i]))
 				{
 					readylist.Add(bufferlist[i]);
-					//if (CardController.CardNameValidation(bufferlist[i]))
-					//{
-					//	readylist.Add(bufferlist[i]);
-					//	continue;
-					//}
-					//filtratedqueue.Enqueue(bufferlist[i]);
 					continue;
 				}
 

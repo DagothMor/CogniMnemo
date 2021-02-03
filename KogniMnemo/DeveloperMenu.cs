@@ -17,16 +17,16 @@ namespace CorgiMnemo
 					"2 - Get all pages\n" +
 					"exit - Back to main menu\n");
 				var input = Console.ReadLine();
-				if (input.ToLower() == "exit")//exit from game.
+				if (input.ToLower() == "exit")
 				{
 					break;
 				}
-				else if (int.Parse(input) == 1)//Add page in folder.
+				else if (int.Parse(input) == 1)
 				{
 					Console.Clear();
 					CardController.AddAuthomatedCard("question", "answer");
 				}
-				else if (int.Parse(input) == 2)//Get all pages.
+				else if (int.Parse(input) == 2)
 				{
 				}
 				Console.Clear();

@@ -9,17 +9,20 @@ namespace CorgiMnemo
 	public static class CardController
 	{
 		private static string _rootFolder = $"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\";
+		/// <summary>
+		/// Added a working card
+		/// </summary>
+		/// <param name="question">question</param>
+		/// <param name="answer">answer</param>
 		public static void AddAuthomatedCard(string question, string answer)
 		{
-			// here need a countofcard integer
-			string folder = $"{_rootFolder}" + "1.txt";//todo:add a nterpolation with checking serial number of pages
+			string folder = $"{_rootFolder}" + $"{GetNumberOfCardsInDataBaseFolder()}.txt";
 			var notetext = new StringBuilder();
 			notetext.Append("[date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
 			notetext.Append("[date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
 			notetext.Append("[level-]1" + Environment.NewLine);
 			notetext.Append("[question]" + question + Environment.NewLine);
 			notetext.Append("[answer]" + answer + Environment.NewLine);
-
 			try
 			{
 				using (StreamWriter sw = new StreamWriter(folder))
@@ -71,37 +74,13 @@ namespace CorgiMnemo
 		/// <returns></returns>
 		public static int GetNumberOfCardsInDataBaseFolder()//todo: need to wrap in garbage collector
 		{
-			//sortingnotesindatabase
-
-			//create list of int
+			int count = 0;
 			var rawlist = Directory.GetFiles(_rootFolder);
-			//add in list a node with  int.parsed name
-
-			//other node name(which cant parsed) are ignored
-			//get list.count
-			return 0;
-		}
-		/// <summary>
-		/// Needed to sort them in the start of program.
-		/// </summary>
-		public static void SortingCardsInDataBase()
-		{
-
-			DirectoryInfo d = new DirectoryInfo(_rootFolder);//Assuming Test is your Folder
-			FileInfo[] Files = d.GetFiles("*.txt"); //Getting Text files
-			string str = "";
-			var filenames = Path.GetFileName(_rootFolder);
-			//get array of named notes
-			//var rawlist = Directory.GetDirectories($"{AppContext.BaseDirectory}" + @"CorgiMnemoDataBase\");
-			//string[] filePaths = Directory.GetFiles($"{AppContext.BaseDirectory}" + @"CorgiMnemoDataBase\", "*.txt",SearchOption.TopDirectoryOnly);
-			//create list of int
-			var list = new List<int>();
-			//add in list a node with  int.parsed name
-			//other node name(which cant parsed) are ignored
-			//sort(by date of create?)
-			//for(list.count)
-			//streamwriter.changenotename(list[i],i)
-
+			foreach (string path in rawlist)
+			{
+				if (CardNameValidation(path)) { count++; }
+			}
+			return count;
 		}
 		/// <summary>
 		/// GetAll
