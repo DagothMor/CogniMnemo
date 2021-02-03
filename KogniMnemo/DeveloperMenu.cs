@@ -24,7 +24,7 @@ namespace CorgiMnemo
 				else if (int.Parse(input) == 1)//Add page in folder.
 				{
 					Console.Clear();
-					CardController.Add("question", "answer");
+					CardController.AddAuthomatedCard("question", "answer");
 				}
 				else if (int.Parse(input) == 2)//Get all pages.
 				{

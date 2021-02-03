@@ -27,18 +27,19 @@ namespace CorgiMnemo
 				}
 				if (CardController.AutomatedInsertCardTextValidation(bufferlist[i]))
 				{
-					if (CardController.CardNameValidation(bufferlist[i]))
-					{
-						readylist.Add(bufferlist[i]);
-						continue;
-					}
-					filtratedqueue.Enqueue(bufferlist[i]);
+					readylist.Add(bufferlist[i]);
+					//if (CardController.CardNameValidation(bufferlist[i]))
+					//{
+					//	readylist.Add(bufferlist[i]);
+					//	continue;
+					//}
+					//filtratedqueue.Enqueue(bufferlist[i]);
 					continue;
 				}
 
 				else
 				{
-					if (bufferlist[i] != FolderController.CreateNewNameForFilePath(bufferlist[i],"incorrect"))
+					if (bufferlist[i] != FolderController.CreateNewNameForFilePath(bufferlist[i], "incorrect"))
 					{
 						string bufferstart = FolderController.CreateNewNameForFilePath(bufferlist[i], "incorrect");
 						string bufferend;
@@ -59,6 +60,10 @@ namespace CorgiMnemo
 			}
 
 			readylist.OrderBy(q => q).ToList();
+			foreach (string path in filtratedqueue)
+			{
+				CardController.CreateWorkCardFromManualInsertedCard(path);
+			}
 
 			while (filtratedqueue.Count != 0)
 			{
@@ -66,7 +71,7 @@ namespace CorgiMnemo
 			}
 			for (int i = 0; i < readylist.Count; i++)
 			{
-				if (readylist[i]!=FolderController.CreateNewNameForFilePath(readylist[i], i.ToString()))
+				if (readylist[i] != FolderController.CreateNewNameForFilePath(readylist[i], i.ToString()))
 				{
 					if (File.Exists(FolderController.CreateNewNameForFilePath(readylist[i], i.ToString())))
 					{

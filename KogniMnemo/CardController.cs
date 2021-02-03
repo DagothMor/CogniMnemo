@@ -26,11 +26,6 @@ namespace CorgiMnemo
 				{
 					sw.Write(notetext.ToString());
 				}
-
-				//using (StreamWriter sw = new StreamWriter(folder, true, System.Text.Encoding.Default))
-				//{
-				//	sw.Write(notetext.ToString());
-				//}
 				Console.WriteLine("Запись выполнена");
 			}
 			catch (Exception e)
@@ -43,16 +38,28 @@ namespace CorgiMnemo
 		/// </summary>
 		public static void CreateWorkCardFromManualInsertedCard(string path)
 		{
-			//get all text from path
 			var text = File.ReadAllText(path);
-
-			//create 2 var question and answer
-			string question;
-			string answer;
-
-			//parsing them
-
-			//copypaste fromAddAuthomatedCard
+			string question = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text,"[?]");
+			string answer = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text,"[!]");
+			var notetext = new StringBuilder();
+			notetext.Append("[date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
+			notetext.Append("[date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
+			notetext.Append("[level-]1" + Environment.NewLine);
+			notetext.Append("[question]" + question + Environment.NewLine);
+			notetext.Append("[answer]" + answer + Environment.NewLine);
+			File.WriteAllText(path, string.Empty);
+			try
+			{
+				using (StreamWriter sw = new StreamWriter(path))
+				{
+					sw.Write(notetext.ToString());
+				}
+				Console.WriteLine("Запись выполнена");
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+			}
 		}
 		public static void Read()
 		{
@@ -149,15 +156,15 @@ namespace CorgiMnemo
 		public static bool AutomatedInsertCardTextValidation(string pathfile)
 		{
 			var card = File.ReadAllText(pathfile);
-			if (card.Contains("[Date of creation]"))
+			if (card.Contains("[date of creation]"))
 			{
-				if (card.Contains("[Date of last recall]"))
+				if (card.Contains("[date of last recall]"))
 				{
-					if (card.Contains("[Level-]"))
+					if (card.Contains("[level-]"))
 					{
-						if (card.Contains("[Question]"))
+						if (card.Contains("[question]"))
 						{
-							if (card.Contains("[Answer]"))
+							if (card.Contains("[answer]"))
 							{
 								return true;
 							}

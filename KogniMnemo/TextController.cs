@@ -17,12 +17,12 @@ namespace CorgiMnemo
 		public static string ParsingTextFromManualOrAuthomatedInsertCard(string text, string attributeFlag)
 		{
 			var list = text.ToCharArray().ToList();
-			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[question]", "[answer]"};
+			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[question]", "[answer]","[!]","[?]"};
 			var listout = new List<char>();
 			var iteration = text.IndexOf(attributeFlag);
 			bool insideattribute = false;
 			var attributeWordBuffer = new StringBuilder();
-			var textout = new 
+			var textout = new StringBuilder();
 			for (; iteration < list.Count(); iteration++)
 			{
 				if (text[iteration] == ']')
@@ -31,7 +31,6 @@ namespace CorgiMnemo
 					break;
 				}
 			}
-			//todo:text can have a [] symbols what i need todo?
 			for (; iteration < list.Count(); iteration++)
 			{
 				if (insideattribute == true)
@@ -42,12 +41,18 @@ namespace CorgiMnemo
 						string attributeWord = attributeWordBuffer.ToString();
 						if (listOfAttributes.Contains(attributeWord))
 						{
-
+							return textout.ToString().Replace("\r\n", string.Empty);
 						}
+						insideattribute = false;
+						textout.Append(attributeWordBuffer);
 						attributeWordBuffer.Clear();
-
+						continue;
 					}
-					attributeWordBuffer.Append(list[iteration]);
+					else
+					{
+						attributeWordBuffer.Append(list[iteration]);
+					}
+					
 				}
 				else
 				{
@@ -55,13 +60,15 @@ namespace CorgiMnemo
 					{
 						attributeWordBuffer.Append('[');
 						insideattribute = true;
-						break;
+						continue;
+					}
+					else
+					{
+						textout.Append(list[iteration]);
 					}
 				}
-
-
 			}
-			return "";
+			return textout.ToString();
 
 		}
 	}
