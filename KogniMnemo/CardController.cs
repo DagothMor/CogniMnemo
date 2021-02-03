@@ -9,16 +9,16 @@ namespace CorgiMnemo
 	public static class CardController
 	{
 		private static string _rootFolder = $"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\";
-		public static void Add(string question, string answer)
+		public static void AddAuthomatedCard(string question, string answer)
 		{
 			// here need a countofcard integer
 			string folder = $"{_rootFolder}" + "1.txt";//todo:add a nterpolation with checking serial number of pages
 			var notetext = new StringBuilder();
-			notetext.Append("[Date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
-			notetext.Append("[Date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
-			notetext.Append("[Level-]1" + Environment.NewLine);
-			notetext.Append("[Question]" + question + Environment.NewLine);
-			notetext.Append("[Answer]" + answer + Environment.NewLine);
+			notetext.Append("[date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
+			notetext.Append("[date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
+			notetext.Append("[level-]1" + Environment.NewLine);
+			notetext.Append("[question]" + question + Environment.NewLine);
+			notetext.Append("[answer]" + answer + Environment.NewLine);
 
 			try
 			{
@@ -37,6 +37,22 @@ namespace CorgiMnemo
 			{
 				Console.WriteLine(e.Message);
 			}
+		}
+		/// <summary>
+		/// Rewriting manual inserted card to workable card.
+		/// </summary>
+		public static void CreateWorkCardFromManualInsertedCard(string path)
+		{
+			//get all text from path
+			var text = File.ReadAllText(path);
+
+			//create 2 var question and answer
+			string question;
+			string answer;
+
+			//parsing them
+
+			//copypaste fromAddAuthomatedCard
 		}
 		public static void Read()
 		{
@@ -109,7 +125,7 @@ namespace CorgiMnemo
 
 		}
 		/// <summary>
-		/// Check a text of file which inserted manual.
+		/// Checks the text validity of the card which inserted manual.
 		/// </summary>
 		/// <param name="pathfile">path file</param>
 		/// <returns></returns>
@@ -126,7 +142,7 @@ namespace CorgiMnemo
 			return false;
 		}
 		/// <summary>
-		/// 
+		/// Checks the text validity of the card
 		/// </summary>
 		/// <param name="pathfile">path file</param>
 		/// <returns></returns>
@@ -151,36 +167,6 @@ namespace CorgiMnemo
 			}
 			return false;
 		}
-		public static string RenameFile(string oldpath, string newname)
-		{
-			List<char> oldpathlist = oldpath.ToCharArray().ToList();
-			for (int i = oldpathlist.Count-1; i >= 0; i--)
-			{
-				if (oldpathlist[i] == '.')
-				{
-					i--;
-					while (oldpathlist[i] != '\\')
-					{
-						oldpathlist.RemoveAt(i);
-						i--;
-					}
-					i++;
-					for (int j = 0; j < newname.Length; j++)
-					{
-						
-						oldpathlist.Insert(i, newname[j]);
-						i++;
-					}
-					break;
-				}
-			}
-			var newfilename = new StringBuilder();
-			for (int i = 0; i < oldpathlist.Count; i++)
-			{
-				newfilename.Append(oldpathlist[i]);
-			}
-
-			return newfilename.ToString();
-		}
+		
 	}
 }

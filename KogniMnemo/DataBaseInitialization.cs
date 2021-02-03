@@ -38,13 +38,22 @@ namespace CorgiMnemo
 
 				else
 				{
-					Console.WriteLine($"Bad card on path {bufferlist[i]},Please edit card by rules");
-					if (!bufferlist[i].Contains("incorrect"))
+					if (bufferlist[i] != FolderController.CreateNewNameForFilePath(bufferlist[i],"incorrect"))
 					{
-						var buffer = CardController.RenameFile(bufferlist[i], Path.GetFileNameWithoutExtension(bufferlist[i]) + "-incorrect");
-
-						File.Move(bufferlist[i], buffer);
-						bufferlist[i] = buffer;
+						string bufferstart = FolderController.CreateNewNameForFilePath(bufferlist[i], "incorrect");
+						string bufferend;
+						Console.WriteLine($"Bad card on path {bufferlist[i]},Please edit card by rules");
+						if (File.Exists(bufferstart))
+						{
+							bufferend = FolderController.SafeFileRename(bufferlist[i], FolderController.CreateNewNameForFilePath(bufferlist[i], "incorrect"));
+							bufferlist[i] = FolderController.CreateNewNameForFilePath(bufferlist[i], "incorrect");
+							bufferlist[bufferlist.IndexOf(bufferstart)] = bufferend;
+						}
+						else
+						{
+							FolderController.SafeFileRename(bufferlist[i], FolderController.CreateNewNameForFilePath(bufferlist[i], "incorrect"));
+							bufferlist[i] = FolderController.CreateNewNameForFilePath(bufferlist[i], "incorrect");
+						}
 					}
 				}
 			}
@@ -55,18 +64,21 @@ namespace CorgiMnemo
 			{
 				readylist.Add(filtratedqueue.Dequeue());
 			}
-
 			for (int i = 0; i < readylist.Count; i++)
 			{
-				var buffer = CardController.RenameFile(readylist[i], "copy");
-				if (readylist.Contains(i.ToString()))//todo тут хуйня надо переделаывать наверно отдельным методом
+				if (readylist[i]!=FolderController.CreateNewNameForFilePath(readylist[i], i.ToString()))
 				{
-					File.Move(readylist[readylist.IndexOf(i.ToString())], buffer);
-					readylist[readylist.IndexOf(i.ToString())] = buffer;
+					if (File.Exists(FolderController.CreateNewNameForFilePath(readylist[i], i.ToString())))
+					{
+						string bufferstart = FolderController.CreateNewNameForFilePath(readylist[i], i.ToString());
+						string bufferend = FolderController.SafeFileRename(readylist[i], FolderController.CreateNewNameForFilePath(readylist[i], i.ToString()));
+						readylist[readylist.IndexOf(bufferstart)] = bufferend;
+					}
+					else
+					{
+						FolderController.SafeFileRename(readylist[i], FolderController.CreateNewNameForFilePath(readylist[i], i.ToString()));
+					}
 				}
-				buffer = CardController.RenameFile(readylist[i], i.ToString());
-				File.Move(readylist[i], CardController.RenameFile(readylist[i], i.ToString()));
-				readylist[i] = buffer;
 			}
 		}
 		/// <summary>
