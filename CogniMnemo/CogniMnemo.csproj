@@ -8,16 +8,16 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishTrimmed>true</PublishTrimmed>
     <PublishReadyToRun>true</PublishReadyToRun>
-    <StartupObject>KogniMnemo.Program</StartupObject>
+    <StartupObject>CogniMnemo.Program</StartupObject>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>C:\CorgiMnemo\</OutputPath>
+    <OutputPath>C:\CogniMnemo\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>C:\CorgiMnemo\</OutputPath>
+    <OutputPath>C:\CogniMnemo\</OutputPath>
   </PropertyGroup>
 
 </Project>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CogniMnemo", "KogniMnemo\CogniMnemo.csproj", "{7A17EA03-1A06-40F8-BF8B-46AFDF2AB987}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CogniMnemo", "CogniMnemo\CogniMnemo.csproj", "{1C8566DC-B01D-439F-9909-526D00B41747}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7A17EA03-1A06-40F8-BF8B-46AFDF2AB987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A17EA03-1A06-40F8-BF8B-46AFDF2AB987}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A17EA03-1A06-40F8-BF8B-46AFDF2AB987}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A17EA03-1A06-40F8-BF8B-46AFDF2AB987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C8566DC-B01D-439F-9909-526D00B41747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C8566DC-B01D-439F-9909-526D00B41747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C8566DC-B01D-439F-9909-526D00B41747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C8566DC-B01D-439F-9909-526D00B41747}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
