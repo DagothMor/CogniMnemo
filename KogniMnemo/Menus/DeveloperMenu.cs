@@ -1,14 +1,17 @@
-﻿using System;
+﻿using CorgiMnemo.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CorgiMnemo
+namespace CorgiMnemo.Menus
 {
+	/// <summary>
+	/// Developer menu.
+	/// </summary>
 	public static class DeveloperMenu
 	{
 		public static void Start()
 		{
-			
 			while (true)
 			{
 				Console.WriteLine("You are in developer menu!");

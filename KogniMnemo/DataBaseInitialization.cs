@@ -1,10 +1,14 @@
-﻿using System;
+﻿using CorgiMnemo.Controllers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace CorgiMnemo
 {
+	/// <summary>
+	/// Data base initialization.
+	/// </summary>
 	public static class DataBaseInitialization
 	{
 		public static void Start()
@@ -14,7 +18,7 @@ namespace CorgiMnemo
 
 			CheckForExistFolder();
 
-			var bufferlist = CardController.GetAllFileNamesInDataBase();
+			var bufferlist = FolderController.GetAllFileNamesInDataBase();
 
 			for (int i = 0; i < bufferlist.Count; i++)
 			{
@@ -28,7 +32,6 @@ namespace CorgiMnemo
 					readylist.Add(bufferlist[i]);
 					continue;
 				}
-
 				else
 				{
 					if (bufferlist[i] != FolderController.CreateNewNameForFilePath(bufferlist[i], "incorrect"))
@@ -39,8 +42,8 @@ namespace CorgiMnemo
 						if (File.Exists(bufferstart))
 						{
 							bufferend = FolderController.SafeFileRename(bufferlist[i], FolderController.CreateNewNameForFilePath(bufferlist[i], "incorrect"));
-							bufferlist[i] = FolderController.CreateNewNameForFilePath(bufferlist[i], "incorrect");
 							bufferlist[bufferlist.IndexOf(bufferstart)] = bufferend;
+							bufferlist[i] = FolderController.CreateNewNameForFilePath(bufferlist[i], "incorrect");
 						}
 						else
 						{
@@ -52,11 +55,11 @@ namespace CorgiMnemo
 			}
 
 			readylist.OrderBy(q => q).ToList();
+
 			foreach (string path in filtratedqueue)
 			{
 				CardController.CreateWorkCardFromManualInsertedCard(path);
 			}
-
 			while (filtratedqueue.Count != 0)
 			{
 				readylist.Add(filtratedqueue.Dequeue());

@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace CorgiMnemo
+namespace CorgiMnemo.Controllers
 {
+	/// <summary>
+	/// Text controller.
+	/// </summary>
 	public static class TextController
 	{
 		/// <summary>
-		/// Return a text 
+		/// Return a text.
 		/// </summary>
-		/// <param name="text"></param>
-		/// <param name="attributeFlag"></param>
-		/// <returns></returns>
+		/// <param name="text">text of file</param>
+		/// <param name="attributeFlag">the attribute after which you want to read the text</param>
+		/// <returns>text which going after a pointed attribute</returns>
 		public static string ParsingTextFromManualOrAuthomatedInsertCard(string text, string attributeFlag)
 		{
 			var list = text.ToCharArray().ToList();
-			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[question]", "[answer]","[!]","[?]"};
+			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[question]", "[answer]", "[!]", "[?]" };
 			var listout = new List<char>();
 			var iteration = text.IndexOf(attributeFlag);
 			bool insideattribute = false;
@@ -52,7 +54,6 @@ namespace CorgiMnemo
 					{
 						attributeWordBuffer.Append(list[iteration]);
 					}
-					
 				}
 				else
 				{
@@ -69,7 +70,6 @@ namespace CorgiMnemo
 				}
 			}
 			return textout.ToString();
-
 		}
 	}
 }

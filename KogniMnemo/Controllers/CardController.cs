@@ -4,19 +4,21 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace CorgiMnemo
+namespace CorgiMnemo.Controllers
 {
+	/// <summary>
+	/// Card controller.
+	/// </summary>
 	public static class CardController
 	{
-		private static string _rootFolder = $"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\";
 		/// <summary>
-		/// Added a working card
+		/// Added a working card.
 		/// </summary>
 		/// <param name="question">question</param>
 		/// <param name="answer">answer</param>
 		public static void AddAuthomatedCard(string question, string answer)
 		{
-			string folder = $"{_rootFolder}" + $"{GetNumberOfCardsInDataBaseFolder()}.txt";
+			string folder = $"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\" + $"{GetNumberOfCardsInDataBaseFolder()}.txt";
 			var notetext = new StringBuilder();
 			notetext.Append("[date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
 			notetext.Append("[date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
@@ -29,7 +31,7 @@ namespace CorgiMnemo
 				{
 					sw.Write(notetext.ToString());
 				}
-				Console.WriteLine("Запись выполнена");
+				Console.WriteLine("recording completed.");
 			}
 			catch (Exception e)
 			{
@@ -37,13 +39,13 @@ namespace CorgiMnemo
 			}
 		}
 		/// <summary>
-		/// Rewriting manual inserted card to workable card.
+		/// Rewriting manual inserted card to working.
 		/// </summary>
 		public static void CreateWorkCardFromManualInsertedCard(string path)
 		{
 			var text = File.ReadAllText(path);
-			string question = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text,"[?]");
-			string answer = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text,"[!]");
+			string question = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[?]");
+			string answer = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[!]");
 			var notetext = new StringBuilder();
 			notetext.Append("[date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
 			notetext.Append("[date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
@@ -57,14 +59,18 @@ namespace CorgiMnemo
 				{
 					sw.Write(notetext.ToString());
 				}
-				Console.WriteLine("Запись выполнена");
+				Console.WriteLine("recording completed.");
 			}
 			catch (Exception e)
 			{
 				Console.WriteLine(e.Message);
 			}
 		}
-		public static void Read()
+		/// <summary>
+		/// Output to console a card.
+		/// </summary>
+		/// <param name="indexofcard"></param>
+		public static void ReadWorkingCard(int indexofcard)
 		{
 
 		}
@@ -75,26 +81,12 @@ namespace CorgiMnemo
 		public static int GetNumberOfCardsInDataBaseFolder()//todo: need to wrap in garbage collector
 		{
 			int count = 0;
-			var rawlist = Directory.GetFiles(_rootFolder);
+			var rawlist = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
 			foreach (string path in rawlist)
 			{
 				if (CardNameValidation(path)) { count++; }
 			}
 			return count;
-		}
-		/// <summary>
-		/// GetAll
-		/// </summary>
-		/// <returns></returns>
-		public static List<string> GetAllFileNamesInDataBase()
-		{
-			var PathsOfCardsInDataBase = new List<string>();
-			var paths = Directory.GetFiles(_rootFolder);
-			for (int i = 0; i < paths.Length; i++)
-			{
-				PathsOfCardsInDataBase.Add(paths[i]);
-			}
-			return PathsOfCardsInDataBase;
 		}
 		/// <summary>
 		/// Checking for valid card name.
@@ -105,16 +97,18 @@ namespace CorgiMnemo
 		{
 			if (int.TryParse(Path.GetFileNameWithoutExtension(pathfile), out _))
 			{
-				return true;
+				if (AutomatedInsertCardTextValidation(pathfile))
+				{
+					return true;
+				}
 			}
 			return false;
-
 		}
 		/// <summary>
 		/// Checks the text validity of the card which inserted manual.
 		/// </summary>
 		/// <param name="pathfile">path file</param>
-		/// <returns></returns>
+		/// <returns>true if card have all manual attributes</returns>
 		public static bool ManualInsertCardTextValidation(string pathfile)
 		{
 			var card = File.ReadAllText(pathfile);
@@ -128,10 +122,10 @@ namespace CorgiMnemo
 			return false;
 		}
 		/// <summary>
-		/// Checks the text validity of the card
+		/// Checks the text validity of the card.
 		/// </summary>
 		/// <param name="pathfile">path file</param>
-		/// <returns></returns>
+		/// <returns>true if card have all automated attributes</returns>
 		public static bool AutomatedInsertCardTextValidation(string pathfile)
 		{
 			var card = File.ReadAllText(pathfile);
@@ -153,6 +147,6 @@ namespace CorgiMnemo
 			}
 			return false;
 		}
-		
+
 	}
 }

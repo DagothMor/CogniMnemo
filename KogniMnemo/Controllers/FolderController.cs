@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System;
 
-namespace CorgiMnemo
+namespace CorgiMnemo.Controllers
 {
 	/// <summary>
-	/// am i need it?i can just create a method in program
+	/// Folder Controller.
 	/// </summary>
 	public static class FolderController
 	{
 		/// <summary>
 		/// Safe file rename.
 		/// </summary>
-		/// <param name="oldPath"></param>
-		/// <param name="newPath"></param>
+		/// <param name="oldPath">old path</param>
+		/// <param name="newPath">new path</param>
 		/// <returns>New renamed file conflicting in the process.</returns>
-		public static string SafeFileRename(string oldPath,string newPath )
+		public static string SafeFileRename(string oldPath, string newPath)
 		{
 			string startconflictfilename = newPath;
 			string finishconflictfilename = newPath;
@@ -25,22 +26,35 @@ namespace CorgiMnemo
 			while (File.Exists(finishconflictfilename))
 			{
 				FileIsExist = true;
-				if (!Path.GetFileNameWithoutExtension(finishconflictfilename).Contains("copy")){
+				if (!Path.GetFileNameWithoutExtension(finishconflictfilename).Contains("copy"))
+				{
 					finishconflictfilename = CreateNewNameForFilePath(finishconflictfilename, Path.GetFileNameWithoutExtension(finishconflictfilename) + $" copy({iteration})");
 					iteration++;
 				}
 				else
 				{
-					finishconflictfilename = CreateNewCopyNameForFilePath(finishconflictfilename,iteration);
+					finishconflictfilename = CreateNewCopyNameForFilePath(finishconflictfilename, iteration);
 					iteration++;
 				}
-				
-				
 			}
 			if (FileIsExist) { File.Move(startconflictfilename, finishconflictfilename); }
 			File.Move(oldPath, newPath);
 			return finishconflictfilename;
 
+		}
+		/// <summary>
+		/// Get all file names in data base.
+		/// </summary>
+		/// <returns>list of paths</returns>
+		public static List<string> GetAllFileNamesInDataBase()
+		{
+			var PathsOfCardsInDataBase = new List<string>();
+			var paths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
+			for (int i = 0; i < paths.Length; i++)
+			{
+				PathsOfCardsInDataBase.Add(paths[i]);
+			}
+			return PathsOfCardsInDataBase;
 		}
 		/// <summary>
 		/// Creating a new name for file.
@@ -64,7 +78,6 @@ namespace CorgiMnemo
 					i++;
 					for (int j = 0; j < newname.Length; j++)
 					{
-
 						oldpathlist.Insert(i, newname[j]);
 						i++;
 					}
@@ -76,13 +89,18 @@ namespace CorgiMnemo
 			{
 				newfilename.Append(oldpathlist[i]);
 			}
-
 			return newfilename.ToString();
 		}
-		public static string CreateNewCopyNameForFilePath(string filepath,int iteration)
+		/// <summary>
+		/// Create a new copy name for file path.
+		/// </summary>
+		/// <param name="filepath">file path</param>
+		/// <param name="iteration">iteration</param>
+		/// <returns>new copy name for file path</returns>
+		public static string CreateNewCopyNameForFilePath(string filepath, int iteration)
 		{
 			List<char> oldpathlist = filepath.ToCharArray().ToList();
-			int buffer =0;
+			int buffer = 0;
 			for (int i = oldpathlist.Count - 1; i >= 0; i--)
 			{
 				if (oldpathlist[i] == '.')
@@ -96,7 +114,6 @@ namespace CorgiMnemo
 					i++;
 					for (int j = 0; j < iteration.ToString().Length; j++)
 					{
-
 						oldpathlist.Insert(i, iteration.ToString()[j]);
 						i++;
 					}
@@ -104,16 +121,14 @@ namespace CorgiMnemo
 					break;
 				}
 			}
-			oldpathlist.Insert(buffer,')');
+			oldpathlist.Insert(buffer, ')');
 			var newfilename = new StringBuilder();
 			for (int i = 0; i < oldpathlist.Count; i++)
 			{
 				newfilename.Append(oldpathlist[i]);
 			}
-			
+
 			return newfilename.ToString();
 		}
 	}
-
-	
 }

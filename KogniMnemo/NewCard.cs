@@ -4,7 +4,10 @@ using System.Text;
 
 namespace CorgiMnemo
 {
-	public static class NewPage
+	/// <summary>
+	/// New card.
+	/// </summary>
+	public static class NewCard
 	{
 		public static void Start()
 		{
@@ -24,7 +27,6 @@ namespace CorgiMnemo
 				}
 				Console.Clear();
 			}
-
 		}
 		public static void AddNewPage()
 		{
@@ -47,7 +49,6 @@ namespace CorgiMnemo
 				input = Console.ReadLine();
 				if (input.ToLower() == "y")
 				{
-
 					break;
 				}
 				else
