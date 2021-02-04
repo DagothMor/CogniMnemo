@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System;
 
-namespace CorgiMnemo.Controllers
+namespace CogniMnemo.Controllers
 {
 	/// <summary>
 	/// Folder Controller.

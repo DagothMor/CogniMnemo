@@ -1,10 +1,10 @@
-﻿using CorgiMnemo.Controllers;
+﻿using CogniMnemo.Controllers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace CorgiMnemo
+namespace CogniMnemo
 {
 	/// <summary>
 	/// Data base initialization.

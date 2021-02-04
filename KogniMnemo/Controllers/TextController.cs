@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CorgiMnemo.Controllers
+namespace CogniMnemo.Controllers
 {
 	/// <summary>
 	/// Text controller.

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace CorgiMnemo.Menus
+namespace CogniMnemo.Menus
 {
 	/// <summary>
 	/// Menu have all CRUD operations for card.

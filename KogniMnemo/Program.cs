@@ -1,7 +1,6 @@
-﻿using CorgiMnemo;
-using CorgiMnemo.Menus;
+﻿using CogniMnemo.Menus;
 
-namespace KogniMnemo
+namespace CogniMnemo
 {
 	class Program
 	{

@@ -1,9 +1,9 @@
-﻿using CorgiMnemo.Controllers;
+﻿using CogniMnemo.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CorgiMnemo.Menus
+namespace CogniMnemo.Menus
 {
 	/// <summary>
 	/// Developer menu.
