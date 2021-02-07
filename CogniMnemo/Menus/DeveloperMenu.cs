@@ -1,6 +1,7 @@
 ﻿using CogniMnemo.Controllers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace CogniMnemo.Menus
@@ -8,6 +9,7 @@ namespace CogniMnemo.Menus
 	/// <summary>
 	/// Developer menu.
 	/// </summary>
+	/// пока не пойму че тут можно добавить
 	public static class DeveloperMenu
 	{
 		public static void Start()
@@ -16,21 +18,22 @@ namespace CogniMnemo.Menus
 			{
 				Console.WriteLine("You are in developer menu!");
 				Console.WriteLine(
-					"1 - Add page in folder\n" +
-					"2 - Get all pages\n" +
-					"exit - Back to main menu\n");
+					"1 - Add page in folder" + Environment.NewLine +
+					"2 - Get all pages" + Environment.NewLine +
+					"back - Back to main menu");
 				var input = Console.ReadLine();
-				if (input.ToLower() == "exit")
+				if (input.ToLower() == "back")
 				{
 					break;
 				}
 				else if (int.Parse(input) == 1)
 				{
 					Console.Clear();
-					CardController.AddAuthomatedCard("question", "answer");
 				}
 				else if (int.Parse(input) == 2)
 				{
+					CardController.DisplayAllCards();
+					
 				}
 				Console.Clear();
 			}

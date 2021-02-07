@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CogniMnemo.Menus
 {
@@ -15,13 +11,13 @@ namespace CogniMnemo.Menus
 		{
 			while (true)
 			{
-				Console.WriteLine("Welcome to the CorgiMneemo!" +
+				Console.WriteLine("Welcome to the CorgiMneemo!" + Environment.NewLine +
 					"The best application for training your skills!");
-				Console.WriteLine("Main menu:" +
-					"1-Start new game!" +
-					"2-Card menu." +
-					"3-Options" +
-					"Exit-Exit");
+				Console.WriteLine("Main menu:" + Environment.NewLine +
+					"1-Start new game!" + Environment.NewLine +
+					"2-Card menu." + Environment.NewLine +
+					"3-Options" + Environment.NewLine +
+					"exit-exit from application");
 				var input = Console.ReadLine();
 				if (input.ToLower() == "exit")
 				{
@@ -33,9 +29,9 @@ namespace CogniMnemo.Menus
 				else if (int.Parse(input) == 2)//Going to the card menu.
 				{
 					Console.Clear();
-					NewCard.Start();
+					CardMenu.Start();
 				}
-				else if (int.Parse(input) == 3)//Going to the card menu.
+				else if (int.Parse(input) == 3)//Options.
 				{
 					Console.Clear();
 					//options.start;

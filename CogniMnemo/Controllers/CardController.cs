@@ -38,6 +38,7 @@ namespace CogniMnemo.Controllers
 				Console.WriteLine(e.Message);
 			}
 		}
+
 		/// <summary>
 		/// Rewriting manual inserted card to working.
 		/// </summary>
@@ -65,14 +66,6 @@ namespace CogniMnemo.Controllers
 			{
 				Console.WriteLine(e.Message);
 			}
-		}
-		/// <summary>
-		/// Output to console a card.
-		/// </summary>
-		/// <param name="indexofcard"></param>
-		public static void ReadWorkingCard(int indexofcard)
-		{
-
 		}
 		/// <summary>
 		/// Get count of cards in database.
@@ -147,6 +140,42 @@ namespace CogniMnemo.Controllers
 			}
 			return false;
 		}
+		/// <summary>
+		/// needed for pagination
+		/// </summary>
+		public static void DisplayAllCards()
+		{
+			var listOfPaths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
+			var listOfCards = new List<string>();
+			foreach (var item in listOfPaths)
+			{
+				listOfCards.Add("Card id:" + Path.GetFileNameWithoutExtension(item) + Environment.NewLine + File.ReadAllText(item));
+			}
+			foreach (var item in listOfCards)
+			{
+				Console.Write(item);
+				Console.WriteLine("_____________");
+			}
+			Console.WriteLine("Press enter for back to Card menu.");
+			Console.ReadLine();
+		}
+		public static void DisplayCardById(int number)
+		{
+			var listOfPaths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
+			try
+			{
+				string text = File.ReadAllText($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\" + $"{number}" + ".txt");
+				Console.Write(text);
+				Console.WriteLine("_____________");
+				Console.WriteLine("Press enter for back to Card menu.");
+				Console.ReadLine();
+			}
+			catch (Exception e)
+			{
 
+				Console.WriteLine(e);
+				Console.ReadLine();
+			}
+		}
 	}
 }

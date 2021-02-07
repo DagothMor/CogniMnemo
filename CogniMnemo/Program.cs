@@ -6,7 +6,6 @@ namespace CogniMnemo
 	{
 		static void Main(string[] args)
 		{
-			DataBaseInitialization.Start();
 			MainMenu.Start();
 		}
 	}

@@ -1,18 +1,19 @@
-﻿using System;
+﻿using CogniMnemo.Controllers;
+using System;
 
 namespace CogniMnemo
 {
 	/// <summary>
 	/// New card.
 	/// </summary>
-	public static class NewCard
+	public static class CreateNewCardMenu
 	{
 		public static void Start()
 		{
 			string input;
 			while (true)
 			{
-				Console.WriteLine("1 - Create new page" +
+				Console.WriteLine("1 - Create new page" + Environment.NewLine +
 				"2 - Go to main menu");
 				input = Console.ReadLine();
 				if (int.Parse(input) == 1)
@@ -47,6 +48,7 @@ namespace CogniMnemo
 				input = Console.ReadLine();
 				if (input.ToLower() == "y")
 				{
+					CardController.AddAuthomatedCard(question,answer);
 					break;
 				}
 				else

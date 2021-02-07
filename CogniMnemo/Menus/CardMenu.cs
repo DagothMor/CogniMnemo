@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CogniMnemo.Controllers;
+using System;
 namespace CogniMnemo.Menus
 {
 	/// <summary>
@@ -10,34 +11,40 @@ namespace CogniMnemo.Menus
 		{
 			while (true)
 			{
-				Console.WriteLine("Card menu:" +
-				"1-Create new card!" +
-				"2-Read a card" +
-				"3-Update a card" +
-				"4-Delete a card" +
-				"Exit-Back to main menu");
+				Console.WriteLine("Card menu:" + Environment.NewLine +
+				"1-Create new card!" + Environment.NewLine +
+				"2-Get all cards" + Environment.NewLine +
+				"3-Get a card by id " + Environment.NewLine +
+				"4-Update a card" + Environment.NewLine +
+				"5-Delete a card" + Environment.NewLine +
+				"back-Back to main menu");
 				var input = Console.ReadLine();
-				if (input.ToLower() == "exit")
+				if (input.ToLower() == "back")
 				{
 					break;
 				}
 				else if (int.Parse(input) == 1)//Create new card.
 				{
 					Console.Clear();
-					NewCard.Start();
+					CreateNewCardMenu.Start();
 				}
-				else if (int.Parse(input) == 2)//Read a card.
+				else if (int.Parse(input) == 2)//Read all cards card.
 				{
 					Console.Clear();
-					//NewPage.Start();
-					//CardControler.FindACard();
+					CardController.DisplayAllCards();
 				}
-				else if (int.Parse(input) == 3)//  a cart.
+				else if (int.Parse(input) == 3)// Read a card by id.
+				{
+					Console.Clear();
+					Console.WriteLine("Enter a card id");
+					CardController.DisplayCardById(int.Parse(Console.ReadLine()));
+				}
+				else if (int.Parse(input) == 4)// Update a card.
 				{
 					Console.Clear();
 					//options.start;
 				}
-				else if (int.Parse(input) == 4)//Delete a cart.
+				else if (int.Parse(input) == 4)// Delete a card.
 				{
 					Console.Clear();
 					//options.start;
