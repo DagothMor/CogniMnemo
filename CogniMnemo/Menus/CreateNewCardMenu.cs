@@ -13,16 +13,21 @@ namespace CogniMnemo
 			string input;
 			while (true)
 			{
-				Console.WriteLine("1 - Create new page" + Environment.NewLine +
-				"2 - Go to main menu");
+				Console.WriteLine("1 - Create new card" + Environment.NewLine +
+				"back - Go to main menu");
 				input = Console.ReadLine();
-				if (int.Parse(input) == 1)
+				if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
 				{
-					AddNewPage();
+					Console.Clear();
+					continue;
 				}
-				else if (int.Parse(input) == 2)
+				if (input.ToLower() == "back")
 				{
 					break;
+				}
+				else if (int.Parse(input) == 1)
+				{
+					AddNewPage();
 				}
 				Console.Clear();
 			}
@@ -48,7 +53,7 @@ namespace CogniMnemo
 				input = Console.ReadLine();
 				if (input.ToLower() == "y")
 				{
-					CardController.AddAuthomatedCard(question,answer);
+					CardController.AddAuthomatedCard(question, answer);
 					break;
 				}
 				else

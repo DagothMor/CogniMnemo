@@ -22,12 +22,12 @@ namespace CogniMnemo
 
 			for (int i = 0; i < bufferlist.Count; i++)
 			{
-				if (CardController.ManualInsertCardTextValidation(bufferlist[i]))
+				if (TextController.ManualInsertCardTextValidation(bufferlist[i]))
 				{
 					filtratedqueue.Enqueue(bufferlist[i]);
 					continue;
 				}
-				if (CardController.AutomatedInsertCardTextValidation(bufferlist[i]))
+				if (TextController.AutomatedInsertCardTextValidation(bufferlist[i]))
 				{
 					readylist.Add(bufferlist[i]);
 					continue;

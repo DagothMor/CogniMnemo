@@ -19,21 +19,26 @@ namespace CogniMnemo.Menus
 				"5-Delete a card" + Environment.NewLine +
 				"back-Back to main menu");
 				var input = Console.ReadLine();
+				if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+				{
+					Console.Clear();
+					continue;
+				}
 				if (input.ToLower() == "back")
 				{
 					break;
 				}
-				else if (int.Parse(input) == 1)//Create new card.
+				else if (int.Parse(input) == 1)
 				{
 					Console.Clear();
 					CreateNewCardMenu.Start();
 				}
-				else if (int.Parse(input) == 2)//Read all cards card.
+				else if (int.Parse(input) == 2)
 				{
 					Console.Clear();
 					CardController.DisplayAllCards();
 				}
-				else if (int.Parse(input) == 3)// Read a card by id.
+				else if (int.Parse(input) == 3)
 				{
 					Console.Clear();
 					Console.WriteLine("Enter a card id");
@@ -42,12 +47,10 @@ namespace CogniMnemo.Menus
 				else if (int.Parse(input) == 4)// Update a card.
 				{
 					Console.Clear();
-					//options.start;
 				}
 				else if (int.Parse(input) == 4)// Delete a card.
 				{
 					Console.Clear();
-					//options.start;
 				}
 				Console.Clear();
 			}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -19,7 +20,7 @@ namespace CogniMnemo.Controllers
 		public static string ParsingTextFromManualOrAuthomatedInsertCard(string text, string attributeFlag)
 		{
 			var list = text.ToCharArray().ToList();
-			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[question]", "[answer]", "[!]", "[?]" };
+			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]" };
 			var listout = new List<char>();
 			var iteration = text.IndexOf(attributeFlag);
 			bool insideattribute = false;
@@ -71,5 +72,50 @@ namespace CogniMnemo.Controllers
 			}
 			return textout.ToString();
 		}
+
+		/// <summary>
+		/// Checks the text validity of the card.
+		/// </summary>
+		/// <param name="pathfile">path file</param>
+		/// <returns>true if card have all automated attributes</returns>
+		public static bool AutomatedInsertCardTextValidation(string pathfile)
+		{
+			var card = File.ReadAllText(pathfile);
+			if (card.Contains("[date of creation]"))
+			{
+				if (card.Contains("[date of last recall]"))
+				{
+					if (card.Contains("[level-]"))
+					{
+						if (card.Contains("[question]"))
+						{
+							if (card.Contains("[answer]"))
+							{
+								return true;
+							}
+						}
+					}
+				}
+			}
+			return false;
+		}
+		/// <summary>
+		/// Checks the text validity of the card which inserted manual.
+		/// </summary>
+		/// <param name="pathfile">path file</param>
+		/// <returns>true if card have all manual attributes</returns>
+		public static bool ManualInsertCardTextValidation(string pathfile)
+		{
+			var card = File.ReadAllText(pathfile);
+			if (card.Contains("[?]"))
+			{
+				if (card.Contains("[!]"))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 	}
 }

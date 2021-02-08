@@ -71,7 +71,7 @@ namespace CogniMnemo.Controllers
 		/// Get count of cards in database.
 		/// </summary>
 		/// <returns></returns>
-		public static int GetNumberOfCardsInDataBaseFolder()//todo: need to wrap in garbage collector
+		public static int GetNumberOfCardsInDataBaseFolder()
 		{
 			int count = 0;
 			var rawlist = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
@@ -90,52 +90,9 @@ namespace CogniMnemo.Controllers
 		{
 			if (int.TryParse(Path.GetFileNameWithoutExtension(pathfile), out _))
 			{
-				if (AutomatedInsertCardTextValidation(pathfile))
+				if (TextController.AutomatedInsertCardTextValidation(pathfile))
 				{
 					return true;
-				}
-			}
-			return false;
-		}
-		/// <summary>
-		/// Checks the text validity of the card which inserted manual.
-		/// </summary>
-		/// <param name="pathfile">path file</param>
-		/// <returns>true if card have all manual attributes</returns>
-		public static bool ManualInsertCardTextValidation(string pathfile)
-		{
-			var card = File.ReadAllText(pathfile);
-			if (card.Contains("[?]"))
-			{
-				if (card.Contains("[!]"))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-		/// <summary>
-		/// Checks the text validity of the card.
-		/// </summary>
-		/// <param name="pathfile">path file</param>
-		/// <returns>true if card have all automated attributes</returns>
-		public static bool AutomatedInsertCardTextValidation(string pathfile)
-		{
-			var card = File.ReadAllText(pathfile);
-			if (card.Contains("[date of creation]"))
-			{
-				if (card.Contains("[date of last recall]"))
-				{
-					if (card.Contains("[level-]"))
-					{
-						if (card.Contains("[question]"))
-						{
-							if (card.Contains("[answer]"))
-							{
-								return true;
-							}
-						}
-					}
 				}
 			}
 			return false;
@@ -170,12 +127,16 @@ namespace CogniMnemo.Controllers
 				Console.WriteLine("Press enter for back to Card menu.");
 				Console.ReadLine();
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 
-				Console.WriteLine(e);
+				Console.WriteLine("Bad request, press enter for back to Card Menu");
 				Console.ReadLine();
 			}
+		}
+		public static Card GetCardFromPathFile(string path)
+		{
+			return new Card();
 		}
 	}
 }
