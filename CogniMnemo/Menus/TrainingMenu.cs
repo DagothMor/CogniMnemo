@@ -27,12 +27,24 @@ namespace CogniMnemo.Menus
 					}
 				}
 				Console.WriteLine("Creating a list of card objects");
-				//todo:todo todo todo todo todo todo todo todooooo todododo
 				var cards = new List<Card>();
+				var buffercard = new Card();
 				foreach (var item in listOfAllWorkableFilePaths)
 				{
-					cards.Add(CardController.GetCardFromPathFile(item));
+					buffercard = CardController.GetCardFromPathFile(item);
+					if (buffercard.DateOfNextRecall<DateTime.Now)
+					{
+						cards.Add(buffercard);
+					}
 				}
+				
+
+
+
+
+
+
+
 				Console.WriteLine(
 					"1 - start training!" + Environment.NewLine +
 					"2 - Get all pages" + Environment.NewLine +

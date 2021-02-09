@@ -22,7 +22,11 @@ namespace CogniMnemo.Controllers
 			var notetext = new StringBuilder();
 			notetext.Append("[date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
 			notetext.Append("[date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
-			notetext.Append("[level-]1" + Environment.NewLine);
+			notetext.Append("[level-]0" + Environment.NewLine);
+			notetext.Append("[date of next recall]" + EbbinghausCurve.GetTimeRecallByForgettingCurve(DateTime.Now, 0,'+').ToString() + Environment.NewLine);
+			notetext.Append("[zerolinks]" + Environment.NewLine);
+			notetext.Append("[links]" + Environment.NewLine);
+			notetext.Append("[tags]" + Environment.NewLine);
 			notetext.Append("[question]" + question + Environment.NewLine);
 			notetext.Append("[answer]" + answer + Environment.NewLine);
 			try
@@ -50,7 +54,11 @@ namespace CogniMnemo.Controllers
 			var notetext = new StringBuilder();
 			notetext.Append("[date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
 			notetext.Append("[date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
-			notetext.Append("[level-]1" + Environment.NewLine);
+			notetext.Append("[level-]0" + Environment.NewLine);
+			notetext.Append("[date of next recall]" + EbbinghausCurve.GetTimeRecallByForgettingCurve(DateTime.Now, 0,'+').ToString() + Environment.NewLine);
+			notetext.Append("[zerolinks]" + Environment.NewLine);
+			notetext.Append("[links]" + Environment.NewLine);
+			notetext.Append("[tags]" + Environment.NewLine);
 			notetext.Append("[question]" + question + Environment.NewLine);
 			notetext.Append("[answer]" + answer + Environment.NewLine);
 			File.WriteAllText(path, string.Empty);
@@ -118,7 +126,6 @@ namespace CogniMnemo.Controllers
 		}
 		public static void DisplayCardById(int number)
 		{
-			var listOfPaths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
 			try
 			{
 				string text = File.ReadAllText($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\" + $"{number}" + ".txt");
@@ -134,9 +141,40 @@ namespace CogniMnemo.Controllers
 				Console.ReadLine();
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
 		public static Card GetCardFromPathFile(string path)
 		{
-			return new Card();
+			Card card = new Card
+			{
+				DateOfCreation = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[date of creation]")),
+				DateOfLastRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[date of last recall]")),
+				Level = byte.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[level-]")),
+				DateOfNextRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[date of next recall]")),
+				Question = TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[question]"),
+				Answer = TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[answer]")
+			};
+
+			return card;
+		}
+		public static Card GetOlderCard(List<Card> list)
+		{
+			var buffercard = new Card();
+			TimeSpan interval = new TimeSpan();
+			buffercard.DateOfNextRecall = DateTime.Now;
+			var cardWithBiggerInterval = new Card();
+			foreach (var item in list)
+			{
+				if (interval<buffercard.DateOfNextRecall-item.DateOfNextRecall)
+				{
+					interval = buffercard.DateOfNextRecall - item.DateOfNextRecall;
+					cardWithBiggerInterval = item;
+				}
+			}
+			return cardWithBiggerInterval;
 		}
 	}
 }

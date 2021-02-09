@@ -54,7 +54,7 @@ namespace CogniMnemo
 				}
 			}
 
-			readylist.OrderBy(q => q).ToList();
+			_ = readylist.OrderBy(q => q);
 
 			foreach (string path in filtratedqueue)
 			{

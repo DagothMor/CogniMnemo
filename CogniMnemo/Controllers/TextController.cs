@@ -20,13 +20,12 @@ namespace CogniMnemo.Controllers
 		public static string ParsingTextFromManualOrAuthomatedInsertCard(string text, string attributeFlag)
 		{
 			var list = text.ToCharArray().ToList();
-			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]" };
-			var listout = new List<char>();
+			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
 			var iteration = text.IndexOf(attributeFlag);
 			bool insideattribute = false;
 			var attributeWordBuffer = new StringBuilder();
 			var textout = new StringBuilder();
-			for (; iteration < list.Count(); iteration++)
+			for (; iteration < list.Count; iteration++)
 			{
 				if (text[iteration] == ']')
 				{
@@ -34,7 +33,7 @@ namespace CogniMnemo.Controllers
 					break;
 				}
 			}
-			for (; iteration < list.Count(); iteration++)
+			for (; iteration < list.Count; iteration++)
 			{
 				if (insideattribute == true)
 				{
@@ -87,11 +86,14 @@ namespace CogniMnemo.Controllers
 				{
 					if (card.Contains("[level-]"))
 					{
-						if (card.Contains("[question]"))
+						if (card.Contains("[date of next recall]"))
 						{
-							if (card.Contains("[answer]"))
+							if (card.Contains("[question]"))
 							{
-								return true;
+								if (card.Contains("[answer]"))
+								{
+									return true;
+								}
 							}
 						}
 					}
