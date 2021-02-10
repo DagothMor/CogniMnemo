@@ -22,9 +22,10 @@ namespace CogniMnemo
 																											, { 11, new TimeSpan(3600,0,0,0) }
 																											, { 12, new TimeSpan(21600,0,0,0) }
 		};
+		//todo:maybe need instead of dateoflastrecall just a datetime.now?
 		public static DateTime GetTimeRecallByForgettingCurve(DateTime dateOfLastRecall, byte level, char plusorminus)
 		{
-			return plusorminus=='+' ? dateOfLastRecall += _ebbinghausCurve[level]: dateOfLastRecall -= _ebbinghausCurve[level];
+			return plusorminus=='+' ? dateOfLastRecall += _ebbinghausCurve[level]: level!=0?dateOfLastRecall += _ebbinghausCurve[level--]: dateOfLastRecall += _ebbinghausCurve[0];
 		}
 	}
 }

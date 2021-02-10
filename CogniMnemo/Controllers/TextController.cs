@@ -12,7 +12,7 @@ namespace CogniMnemo.Controllers
 	public static class TextController
 	{
 		/// <summary>
-		/// Return a text.
+		/// Return a text after a inputed attribute.
 		/// </summary>
 		/// <param name="text">text of file</param>
 		/// <param name="attributeFlag">the attribute after which you want to read the text</param>
@@ -70,6 +70,103 @@ namespace CogniMnemo.Controllers
 				}
 			}
 			return textout.ToString();
+		}
+
+		/// <summary>
+		/// rewrite a text after an input attribute.
+		/// </summary>
+		/// <param name="cardtext">text of file</param>
+		/// <param name="attributeFlag">the attribute after which you want to read the text</param>
+		/// <returns>text which going after a pointed attribute</returns>
+		public static void RewriteTextFromWorkableCard(int id, string attributeFlag,string newtext)
+		{
+			string path = $"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\"+$"{id}"+".txt";
+			var cardtext = File.ReadAllText(path);
+			var cardTextList = cardtext.ToCharArray().ToList();
+			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
+			var iterationOfCardText = cardtext.IndexOf(attributeFlag);
+			bool insideAnAttribute = false;
+			var attributeWordBuffer = new StringBuilder();
+			var textout = new StringBuilder();
+
+			var startdeletebufferindex = 0;
+			var enddeletebufferindex = 0;
+
+			for (; iterationOfCardText < cardTextList.Count; iterationOfCardText++)
+			{
+				if (cardTextList[iterationOfCardText] == ']')
+				{
+					iterationOfCardText++;
+					break;
+				}
+			}
+
+
+			for (; iterationOfCardText < cardTextList.Count; iterationOfCardText++)
+			{
+				if (insideAnAttribute == true)
+				{
+					if (cardTextList[iterationOfCardText] == ']')
+					{
+						attributeWordBuffer.Append(cardTextList[iterationOfCardText]);
+						enddeletebufferindex++;
+						string attributeWord = attributeWordBuffer.ToString();
+						if (listOfAttributes.Contains(attributeWord))
+						{
+							//textout.ToString().Replace("\r\n", string.Empty);//appendig other files
+							break;
+						}
+						cardTextList.RemoveRange(startdeletebufferindex, enddeletebufferindex);
+						insideAnAttribute = false;
+						attributeWordBuffer.Clear();
+						startdeletebufferindex = 0;
+						enddeletebufferindex = 0;
+						continue;
+					}
+					else
+					{
+						attributeWordBuffer.Append(cardTextList[iterationOfCardText]);
+						enddeletebufferindex++;
+					}
+				}
+				else
+				{
+					if (cardTextList[iterationOfCardText] == '[')
+					{
+						attributeWordBuffer.Append('[');
+						startdeletebufferindex = iterationOfCardText;
+						enddeletebufferindex = 1;
+						insideAnAttribute = true;
+						continue;
+					}
+					else
+					{
+						cardTextList.RemoveAt(iterationOfCardText);
+						iterationOfCardText--;
+					}
+				}
+			}
+			iterationOfCardText = cardtext.IndexOf(attributeFlag);
+
+			for (; iterationOfCardText < cardTextList.Count; iterationOfCardText++)
+			{
+				if (cardTextList[iterationOfCardText] == ']')
+				{
+					iterationOfCardText++;
+					break;
+				}
+			}
+			//cardTextList.Insert(iterationOfCardText, ' ');
+			//iterationOfCardText++;
+			for(int i = newtext.Length-1; i > -1; i--)
+			{
+				cardTextList.Insert(iterationOfCardText, newtext[i]);
+			}
+			foreach (var letter in cardTextList)
+			{
+				textout.Append(letter);
+			}
+			File.WriteAllText(path, textout.ToString());
 		}
 
 		/// <summary>

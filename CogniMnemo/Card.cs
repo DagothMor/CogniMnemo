@@ -4,6 +4,7 @@ namespace CogniMnemo
 {
 	public class Card
 	{
+		public int Id { get; set; }
 		public DateTime DateOfCreation { get; set; }
 		public DateTime DateOfLastRecall { get; set; }
 		public DateTime DateOfNextRecall { get; set; }
@@ -18,8 +19,9 @@ namespace CogniMnemo
 		{
 		}
 
-		public Card(DateTime DateOfCreation, DateTime DateOfLastRecall, byte Level, string Question, string Answer)
+		public Card(int Id,DateTime DateOfCreation, DateTime DateOfLastRecall, byte Level, string Question, string Answer)
 		{
+			this.Id = Id;
 			this.DateOfCreation = DateOfCreation;
 			this.DateOfLastRecall = DateOfLastRecall;
 			this.Level = Level;

@@ -35,7 +35,7 @@ namespace CogniMnemo.Controllers
 				{
 					sw.Write(notetext.ToString());
 				}
-				Console.WriteLine("recording completed.");
+				//Console.WriteLine("recording completed.");
 			}
 			catch (Exception e)
 			{
@@ -148,19 +148,21 @@ namespace CogniMnemo.Controllers
 		/// <returns></returns>
 		public static Card GetCardFromPathFile(string path)
 		{
+			var text = File.ReadAllText(path);
 			Card card = new Card
 			{
-				DateOfCreation = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[date of creation]")),
-				DateOfLastRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[date of last recall]")),
-				Level = byte.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[level-]")),
-				DateOfNextRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[date of next recall]")),
-				Question = TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[question]"),
-				Answer = TextController.ParsingTextFromManualOrAuthomatedInsertCard(path, "[answer]")
+				Id = int.Parse(Path.GetFileNameWithoutExtension(path)),
+				DateOfCreation = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[date of creation]")),
+				DateOfLastRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[date of last recall]")),
+				Level = byte.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[level-]")),
+				DateOfNextRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[date of next recall]")),
+				Question = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[question]"),
+				Answer = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[answer]")
 			};
 
 			return card;
 		}
-		public static Card GetOlderCard(List<Card> list)
+		public static Card GetOldestCard(List<Card> list)
 		{
 			var buffercard = new Card();
 			TimeSpan interval = new TimeSpan();
@@ -176,5 +178,6 @@ namespace CogniMnemo.Controllers
 			}
 			return cardWithBiggerInterval;
 		}
+		
 	}
 }

@@ -11,11 +11,13 @@ namespace CogniMnemo.Menus
 	{
 		public static void Start()
 		{
+			string input = "";
 			while (true)
 			{
+				Console.Clear();
 				Console.WriteLine("Initialize a database...");
 				DataBaseInitialization.Start();
-				Console.WriteLine("Getting all cards...");
+				Console.WriteLine("Getting all card paths...");
 				var listOfAllFilePaths = FolderController.GetAllFileNamesInDataBase();
 				Console.WriteLine("Filtering...");
 				var listOfAllWorkableFilePaths = new List<string>();
@@ -32,39 +34,78 @@ namespace CogniMnemo.Menus
 				foreach (var item in listOfAllWorkableFilePaths)
 				{
 					buffercard = CardController.GetCardFromPathFile(item);
-					if (buffercard.DateOfNextRecall<DateTime.Now)
+					if (buffercard.DateOfNextRecall < DateTime.Now)
 					{
 						cards.Add(buffercard);
 					}
 				}
-				
-
-
-
-
-
-
-
-				Console.WriteLine(
-					"1 - start training!" + Environment.NewLine +
-					"2 - Get all pages" + Environment.NewLine +
-					"back - Back to main menu");
-				var input = Console.ReadLine();
-				if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+				if (cards.Count == 0)
 				{
+					Console.WriteLine($"There is no card for recall");
+					Console.WriteLine("press enter for back to main menu.");
+					Console.ReadLine();
 					Console.Clear();
-					continue;
+					break;
 				}
-				if (input.ToLower() == "back")
+				Console.WriteLine($"Cards which need for recall: {cards.Count}");
+				Console.WriteLine("press enter to start recall.");
+				Console.ReadLine();
+				Console.Clear();
+				//get the oldest card
+				var oldercard = CardController.GetOldestCard(cards);
+				//display a card
+				Console.WriteLine($"{oldercard.Question}" + Environment.NewLine);
+				Console.WriteLine("press enter if you read the question.");
+				Console.ReadLine();
+				Console.Clear();
+				Console.WriteLine("Enter the answer.");
+				var userAnswer = Console.ReadLine();
+				Console.Clear();
+				Console.WriteLine($"{oldercard.Answer}");//+ Environment.NewLine
+				Console.WriteLine($"your answer:{userAnswer}");
+				while (true)
+				{
+					Console.WriteLine("is your answer correct? Y/N");
+					var userinput = Console.ReadLine();
+					if (userinput.ToLower() == "y")
+					{
+						TextController.RewriteTextFromWorkableCard(oldercard.Id, "date of last recall", DateTime.Now.ToString() + Environment.NewLine);
+						oldercard.DateOfNextRecall = EbbinghausCurve.GetTimeRecallByForgettingCurve(DateTime.Now, oldercard.Level, '+');
+						TextController.RewriteTextFromWorkableCard(oldercard.Id, "date of next recall", oldercard.DateOfNextRecall.ToString() + Environment.NewLine);
+						oldercard.Level++;
+						TextController.RewriteTextFromWorkableCard(oldercard.Id, "level-", oldercard.Level.ToString() + Environment.NewLine);
+						break;
+					}
+					if (userinput.ToLower() == "n")
+					{
+						TextController.RewriteTextFromWorkableCard(oldercard.Id, "date of last recall", DateTime.Now.ToString() + Environment.NewLine);
+						oldercard.DateOfNextRecall = EbbinghausCurve.GetTimeRecallByForgettingCurve(DateTime.Now, oldercard.Level, '-');
+						TextController.RewriteTextFromWorkableCard(oldercard.Id, "date of next recall", oldercard.DateOfNextRecall.ToString() + Environment.NewLine);
+						if (oldercard.Level!=0) { oldercard.Level--; TextController.RewriteTextFromWorkableCard(oldercard.Id, "level-", oldercard.Level.ToString() + Environment.NewLine); }
+						break;
+					}
+				}
+				while (true)
+				{
+					Console.WriteLine("next card? Y/N");
+					input = Console.ReadLine();
+					if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+					{
+						Console.Clear();
+						continue;
+					}
+					else
+					{
+						break;
+					}
+				}
+				if (input.ToLower() == "n")
 				{
 					break;
 				}
-				else if (int.Parse(input) == 1)
+				else if (input.ToLower() == "y")
 				{
-					Console.Clear();
-				}
-				else if (int.Parse(input) == 2)
-				{
+					continue;
 				}
 				Console.Clear();
 			}

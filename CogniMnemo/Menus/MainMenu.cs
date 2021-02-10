@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CogniMnemo.Controllers;
+using System;
 
 namespace CogniMnemo.Menus
 {
@@ -9,6 +10,11 @@ namespace CogniMnemo.Menus
 	{
 		public static void Start()
 		{
+			//Deleting all files
+			MockController.DeleteAllCardsInDataBase();
+			//Fulling with new cards
+			MockController.CreateListOfTemplateCards();
+			//todo:создать уведомление для ос о том что пора вспомнить карту(отталкиваясь от аттрибутов Last recall и level)
 			while (true)
 			{
 				Console.WriteLine($"Welcome {Environment.UserName} to the CorgiMneemo!" + Environment.NewLine +
@@ -36,7 +42,8 @@ namespace CogniMnemo.Menus
 				}
 				else if (int.Parse(input) == 1)//Start practicing.
 				{
-
+					Console.Clear();
+					TrainingMenu.Start();
 				}
 				else if (int.Parse(input) == 2)//Going to the card menu.
 				{
