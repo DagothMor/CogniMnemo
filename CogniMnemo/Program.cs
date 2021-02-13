@@ -9,5 +9,4 @@ namespace CogniMnemo
 			MainMenu.Start();
 		}
 	}
-
 }

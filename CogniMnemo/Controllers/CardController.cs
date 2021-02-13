@@ -31,10 +31,8 @@ namespace CogniMnemo.Controllers
 			notetext.Append("[answer]" + answer + Environment.NewLine);
 			try
 			{
-				using (StreamWriter sw = new StreamWriter(folder))
-				{
-					sw.Write(notetext.ToString());
-				}
+				using StreamWriter sw = new StreamWriter(folder);
+				sw.Write(notetext.ToString());
 				//Console.WriteLine("recording completed.");
 			}
 			catch (Exception e)

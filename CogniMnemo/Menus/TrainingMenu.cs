@@ -11,7 +11,6 @@ namespace CogniMnemo.Menus
 	{
 		public static void Start()
 		{
-			string input = "";
 			while (true)
 			{
 				Console.Clear();
@@ -81,10 +80,11 @@ namespace CogniMnemo.Menus
 						TextController.RewriteTextFromWorkableCard(oldercard.Id, "date of last recall", DateTime.Now.ToString() + Environment.NewLine);
 						oldercard.DateOfNextRecall = EbbinghausCurve.GetTimeRecallByForgettingCurve(DateTime.Now, oldercard.Level, '-');
 						TextController.RewriteTextFromWorkableCard(oldercard.Id, "date of next recall", oldercard.DateOfNextRecall.ToString() + Environment.NewLine);
-						if (oldercard.Level!=0) { oldercard.Level--; TextController.RewriteTextFromWorkableCard(oldercard.Id, "level-", oldercard.Level.ToString() + Environment.NewLine); }
+						if (oldercard.Level != 0) { oldercard.Level--; TextController.RewriteTextFromWorkableCard(oldercard.Id, "level-", oldercard.Level.ToString() + Environment.NewLine); }
 						break;
 					}
 				}
+				string input;
 				while (true)
 				{
 					Console.WriteLine("next card? Y/N");
