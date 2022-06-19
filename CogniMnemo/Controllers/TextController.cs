@@ -19,45 +19,50 @@ namespace CogniMnemo.Controllers
 		/// <returns>text which going after a pointed attribute</returns>
 		public static string ParsingTextFromManualOrAuthomatedInsertCard(string text, string attributeFlag)
 		{
-			var list = text.ToCharArray().ToList();
+			// 6.4 Было list стало listOfCharsFromCards.
+			var listOfCharsFromCards = text.ToCharArray().ToList();
 			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
-			var iteration = text.IndexOf(attributeFlag);
+			// 6.4 было iteration, стало charIndexInAttribute.
+			var charIndexInAttribute = text.IndexOf(attributeFlag);
 			bool insideattribute = false;
 			var attributeWordBuffer = new StringBuilder();
-			var textout = new StringBuilder();
-			for (; iteration < list.Count; iteration++)
+			// 6.1 Было textout стало parsedTextFromCard.
+			var parsedTextFromCard = new StringBuilder();
+			for (; charIndexInAttribute < listOfCharsFromCards.Count; charIndexInAttribute++)
 			{
-				if (text[iteration] == ']')
+				if (text[charIndexInAttribute] == ']')
 				{
-					iteration++;
+					charIndexInAttribute++;
 					break;
 				}
 			}
-			for (; iteration < list.Count; iteration++)
+			// 6.4 было indexLetterAfterAtributeFlag стало charIndexInValue
+			var charIndexInValue = charIndexInAttribute;
+			for (; charIndexInValue < listOfCharsFromCards.Count; charIndexInValue++)
 			{
 				if (insideattribute == true)
 				{
-					if (text[iteration] == ']')
+					if (text[charIndexInValue] == ']')
 					{
-						attributeWordBuffer.Append(list[iteration]);
+						attributeWordBuffer.Append(listOfCharsFromCards[charIndexInValue]);
 						string attributeWord = attributeWordBuffer.ToString();
 						if (listOfAttributes.Contains(attributeWord))
 						{
-							return textout.ToString().Replace("\r\n", string.Empty);
+							return parsedTextFromCard.ToString().Replace("\r\n", string.Empty);
 						}
 						insideattribute = false;
-						textout.Append(attributeWordBuffer);
+						parsedTextFromCard.Append(attributeWordBuffer);
 						attributeWordBuffer.Clear();
 						continue;
 					}
 					else
 					{
-						attributeWordBuffer.Append(list[iteration]);
+						attributeWordBuffer.Append(listOfCharsFromCards[charIndexInValue]);
 					}
 				}
 				else
 				{
-					if (text[iteration] == '[')
+					if (text[charIndexInValue] == '[')
 					{
 						attributeWordBuffer.Append('[');
 						insideattribute = true;
@@ -65,11 +70,11 @@ namespace CogniMnemo.Controllers
 					}
 					else
 					{
-						textout.Append(list[iteration]);
+						parsedTextFromCard.Append(listOfCharsFromCards[charIndexInValue]);
 					}
 				}
 			}
-			return textout.ToString();
+			return parsedTextFromCard.ToString();
 		}
 
 		/// <summary>
@@ -78,13 +83,14 @@ namespace CogniMnemo.Controllers
 		/// <param name="cardtext">text of file</param>
 		/// <param name="attributeFlag">the attribute after which you want to read the text</param>
 		/// <returns>text which going after a pointed attribute</returns>
-		public static void RewriteTextFromWorkableCard(int id, string attributeFlag,string newtext)
+		public static void RewriteTextFromWorkableCard(int id, string attributeFlag,string replacementText) // 6.1 Было newtext стало replacementText
 		{
 			string path = $"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\"+$"{id}"+".txt";
-			var cardtext = File.ReadAllText(path);
-			var cardTextList = cardtext.ToCharArray().ToList();
+			// 6.1 было cardtext стало textFromMnemoCard.
+			var textFromMnemoCard = File.ReadAllText(path);
+			var listOfCharsFromCard = textFromMnemoCard.ToCharArray().ToList();
 			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
-			var iterationOfCardText = cardtext.IndexOf(attributeFlag);
+			var iterationOfCardText = textFromMnemoCard.IndexOf(attributeFlag);
 			bool insideAnAttribute = false;
 			var attributeWordBuffer = new StringBuilder();
 			var textout = new StringBuilder();
@@ -92,9 +98,9 @@ namespace CogniMnemo.Controllers
 			var startdeletebufferindex = 0;
 			var enddeletebufferindex = 0;
 
-			for (; iterationOfCardText < cardTextList.Count; iterationOfCardText++)
+			for (; iterationOfCardText < listOfCharsFromCard.Count; iterationOfCardText++)
 			{
-				if (cardTextList[iterationOfCardText] == ']')
+				if (listOfCharsFromCard[iterationOfCardText] == ']')
 				{
 					iterationOfCardText++;
 					break;
@@ -102,13 +108,13 @@ namespace CogniMnemo.Controllers
 			}
 
 
-			for (; iterationOfCardText < cardTextList.Count; iterationOfCardText++)
+			for (; iterationOfCardText < listOfCharsFromCard.Count; iterationOfCardText++)
 			{
 				if (insideAnAttribute == true)
 				{
-					if (cardTextList[iterationOfCardText] == ']')
+					if (listOfCharsFromCard[iterationOfCardText] == ']')
 					{
-						attributeWordBuffer.Append(cardTextList[iterationOfCardText]);
+						attributeWordBuffer.Append(listOfCharsFromCard[iterationOfCardText]);
 						enddeletebufferindex++;
 						string attributeWord = attributeWordBuffer.ToString();
 						if (listOfAttributes.Contains(attributeWord))
@@ -116,7 +122,7 @@ namespace CogniMnemo.Controllers
 							//textout.ToString().Replace("\r\n", string.Empty);//appendig other files
 							break;
 						}
-						cardTextList.RemoveRange(startdeletebufferindex, enddeletebufferindex);
+						listOfCharsFromCard.RemoveRange(startdeletebufferindex, enddeletebufferindex);
 						insideAnAttribute = false;
 						attributeWordBuffer.Clear();
 						startdeletebufferindex = 0;
@@ -125,13 +131,13 @@ namespace CogniMnemo.Controllers
 					}
 					else
 					{
-						attributeWordBuffer.Append(cardTextList[iterationOfCardText]);
+						attributeWordBuffer.Append(listOfCharsFromCard[iterationOfCardText]);
 						enddeletebufferindex++;
 					}
 				}
 				else
 				{
-					if (cardTextList[iterationOfCardText] == '[')
+					if (listOfCharsFromCard[iterationOfCardText] == '[')
 					{
 						attributeWordBuffer.Append('[');
 						startdeletebufferindex = iterationOfCardText;
@@ -141,16 +147,16 @@ namespace CogniMnemo.Controllers
 					}
 					else
 					{
-						cardTextList.RemoveAt(iterationOfCardText);
+						listOfCharsFromCard.RemoveAt(iterationOfCardText);
 						iterationOfCardText--;
 					}
 				}
 			}
-			iterationOfCardText = cardtext.IndexOf(attributeFlag);
+			iterationOfCardText = textFromMnemoCard.IndexOf(attributeFlag);
 
-			for (; iterationOfCardText < cardTextList.Count; iterationOfCardText++)
+			for (; iterationOfCardText < listOfCharsFromCard.Count; iterationOfCardText++)
 			{
-				if (cardTextList[iterationOfCardText] == ']')
+				if (listOfCharsFromCard[iterationOfCardText] == ']')
 				{
 					iterationOfCardText++;
 					break;
@@ -158,11 +164,11 @@ namespace CogniMnemo.Controllers
 			}
 			//cardTextList.Insert(iterationOfCardText, ' ');
 			//iterationOfCardText++;
-			for(int i = newtext.Length-1; i > -1; i--)
+			for(int i = replacementText.Length-1; i > -1; i--)
 			{
-				cardTextList.Insert(iterationOfCardText, newtext[i]);
+				listOfCharsFromCard.Insert(iterationOfCardText, replacementText[i]);
 			}
-			foreach (var letter in cardTextList)
+			foreach (var letter in listOfCharsFromCard)
 			{
 				textout.Append(letter);
 			}

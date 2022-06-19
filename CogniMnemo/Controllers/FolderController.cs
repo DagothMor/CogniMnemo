@@ -19,27 +19,27 @@ namespace CogniMnemo.Controllers
 		/// <returns>New renamed file conflicting in the process.</returns>
 		public static string SafeFileRename(string oldPath, string newPath)
 		{
-			string startconflictfilename = newPath;
-			string finishconflictfilename = newPath;
-			bool FileIsExist = false;
+			string startConflictFileName = newPath;
+			string finishConflictFileName = newPath;
+			bool fileIsExist = false;
 			int iteration = 1;
-			while (File.Exists(finishconflictfilename))
+			while (File.Exists(finishConflictFileName))
 			{
-				FileIsExist = true;
-				if (!Path.GetFileNameWithoutExtension(finishconflictfilename).Contains("copy"))
+				fileIsExist = true;
+				if (!Path.GetFileNameWithoutExtension(finishConflictFileName).Contains("copy"))
 				{
-					finishconflictfilename = CreateNewNameForFilePath(finishconflictfilename, Path.GetFileNameWithoutExtension(finishconflictfilename) + $" copy({iteration})");
+					finishConflictFileName = CreateNewNameForFilePath(finishConflictFileName, Path.GetFileNameWithoutExtension(finishConflictFileName) + $" copy({iteration})");
 					iteration++;
 				}
 				else
 				{
-					finishconflictfilename = CreateNewCopyNameForFilePath(finishconflictfilename, iteration);
+					finishConflictFileName = CreateNewCopyNameForFilePath(finishConflictFileName, iteration);
 					iteration++;
 				}
 			}
-			if (FileIsExist) { File.Move(startconflictfilename, finishconflictfilename); }
+			if (fileIsExist) { File.Move(startConflictFileName, finishConflictFileName); }
 			File.Move(oldPath, newPath);
-			return finishconflictfilename;
+			return finishConflictFileName;
 
 		}
 		/// <summary>

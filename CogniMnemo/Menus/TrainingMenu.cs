@@ -19,18 +19,19 @@ namespace CogniMnemo.Menus
 				Console.WriteLine("Getting all card paths...");
 				var listOfAllFilePaths = FolderController.GetAllFileNamesInDataBase();
 				Console.WriteLine("Filtering...");
-				var listOfAllWorkableFilePaths = new List<string>();
+				var validatedCardPaths = new List<string>();
 				foreach (var item in listOfAllFilePaths)
 				{
 					if (CardController.CardNameValidation(item))
 					{
-						listOfAllWorkableFilePaths.Add(item);
+						// 6.4 было listOfAllWorkableFilePaths стало validatedCardPaths
+						validatedCardPaths.Add(item);
 					}
 				}
 				Console.WriteLine("Creating a list of card objects");
 				var cards = new List<Card>();
 				var buffercard = new Card();
-				foreach (var item in listOfAllWorkableFilePaths)
+				foreach (var item in validatedCardPaths)
 				{
 					buffercard = CardController.GetCardFromPathFile(item);
 					if (buffercard.DateOfNextRecall < DateTime.Now)

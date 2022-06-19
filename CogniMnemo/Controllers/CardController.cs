@@ -18,21 +18,24 @@ namespace CogniMnemo.Controllers
 		/// <param name="answer">answer</param>
 		public static void AddAuthomatedCard(string question, string answer)
 		{
-			string folder = $"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\" + $"{GetNumberOfCardsInDataBaseFolder()}.txt";
-			var notetext = new StringBuilder();
-			notetext.Append("[date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
-			notetext.Append("[date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
-			notetext.Append("[level-]0" + Environment.NewLine);
-			notetext.Append("[date of next recall]" + EbbinghausCurve.GetTimeRecallByForgettingCurve(DateTime.Now, 0,'+').ToString() + Environment.NewLine);
-			notetext.Append("[zerolinks]" + Environment.NewLine);
-			notetext.Append("[links]" + Environment.NewLine);
-			notetext.Append("[tags]" + Environment.NewLine);
-			notetext.Append("[question]" + question + Environment.NewLine);
-			notetext.Append("[answer]" + answer + Environment.NewLine);
+			
+			var dataBaseFolder = $"{AppContext.BaseDirectory}" + @"CorgiMnemoDataBase\";
+			string pathToWrite = dataBaseFolder + $"{GetNumberOfCardsInDataBaseFolder()}.txt";
+			var textFromMnemoCard = new StringBuilder();
+			// 6.1 Было text, стало textFromMnemoCard
+			textFromMnemoCard.Append("[date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
+			textFromMnemoCard.Append("[date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
+			textFromMnemoCard.Append("[level-]0" + Environment.NewLine);
+			textFromMnemoCard.Append("[date of next recall]" + EbbinghausCurve.GetTimeRecallByForgettingCurve(DateTime.Now, 0,'+').ToString() + Environment.NewLine);
+			textFromMnemoCard.Append("[zerolinks]" + Environment.NewLine);
+			textFromMnemoCard.Append("[links]" + Environment.NewLine);
+			textFromMnemoCard.Append("[tags]" + Environment.NewLine);
+			textFromMnemoCard.Append("[question]" + question + Environment.NewLine);
+			textFromMnemoCard.Append("[answer]" + answer + Environment.NewLine);
 			try
 			{
-				using StreamWriter sw = new StreamWriter(folder);
-				sw.Write(notetext.ToString());
+				using StreamWriter sw = new StreamWriter(pathToWrite);
+				sw.Write(textFromMnemoCard.ToString());
 				//Console.WriteLine("recording completed.");
 			}
 			catch (Exception e)
@@ -49,22 +52,22 @@ namespace CogniMnemo.Controllers
 			var text = File.ReadAllText(path);
 			string question = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[?]");
 			string answer = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[!]");
-			var notetext = new StringBuilder();
-			notetext.Append("[date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
-			notetext.Append("[date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
-			notetext.Append("[level-]0" + Environment.NewLine);
-			notetext.Append("[date of next recall]" + EbbinghausCurve.GetTimeRecallByForgettingCurve(DateTime.Now, 0,'+').ToString() + Environment.NewLine);
-			notetext.Append("[zerolinks]" + Environment.NewLine);
-			notetext.Append("[links]" + Environment.NewLine);
-			notetext.Append("[tags]" + Environment.NewLine);
-			notetext.Append("[question]" + question + Environment.NewLine);
-			notetext.Append("[answer]" + answer + Environment.NewLine);
+			var textFromMnemoCard = new StringBuilder();
+			textFromMnemoCard.Append("[date of creation]" + DateTime.Now.ToString() + Environment.NewLine);
+			textFromMnemoCard.Append("[date of last recall]" + DateTime.Now.ToString() + Environment.NewLine);
+			textFromMnemoCard.Append("[level-]0" + Environment.NewLine);
+			textFromMnemoCard.Append("[date of next recall]" + EbbinghausCurve.GetTimeRecallByForgettingCurve(DateTime.Now, 0,'+').ToString() + Environment.NewLine);
+			textFromMnemoCard.Append("[zerolinks]" + Environment.NewLine);
+			textFromMnemoCard.Append("[links]" + Environment.NewLine);
+			textFromMnemoCard.Append("[tags]" + Environment.NewLine);
+			textFromMnemoCard.Append("[question]" + question + Environment.NewLine);
+			textFromMnemoCard.Append("[answer]" + answer + Environment.NewLine);
 			File.WriteAllText(path, string.Empty);
 			try
 			{
 				using (StreamWriter sw = new StreamWriter(path))
 				{
-					sw.Write(notetext.ToString());
+					sw.Write(textFromMnemoCard.ToString());
 				}
 				Console.WriteLine("recording completed.");
 			}
@@ -79,13 +82,14 @@ namespace CogniMnemo.Controllers
 		/// <returns></returns>
 		public static int GetNumberOfCardsInDataBaseFolder()
 		{
-			int count = 0;
+			// 6.1 Было count, стало countOfValidatedCards
+			int countOfValidatedCards = 0;
 			var rawlist = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
 			foreach (string path in rawlist)
 			{
-				if (CardNameValidation(path)) { count++; }
+				if (CardNameValidation(path)) { countOfValidatedCards++; }
 			}
-			return count;
+			return countOfValidatedCards;
 		}
 		/// <summary>
 		/// Checking for valid card name.
@@ -126,8 +130,9 @@ namespace CogniMnemo.Controllers
 		{
 			try
 			{
-				string text = File.ReadAllText($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\" + $"{number}" + ".txt");
-				Console.Write(text);
+				// 6.1 Было text, стало textFromMnemoCard
+				string textFromMnemoCard = File.ReadAllText($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\" + $"{number}" + ".txt");
+				Console.Write(textFromMnemoCard);
 				Console.WriteLine("_____________");
 				Console.WriteLine("Press enter for back to Card menu.");
 				Console.ReadLine();
@@ -146,32 +151,34 @@ namespace CogniMnemo.Controllers
 		/// <returns></returns>
 		public static Card GetCardFromPathFile(string path)
 		{
-			var text = File.ReadAllText(path);
+			var textFromMnemoCard = File.ReadAllText(path);
 			Card card = new Card
 			{
 				Id = int.Parse(Path.GetFileNameWithoutExtension(path)),
-				DateOfCreation = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[date of creation]")),
-				DateOfLastRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[date of last recall]")),
-				Level = byte.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[level-]")),
-				DateOfNextRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[date of next recall]")),
-				Question = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[question]"),
-				Answer = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[answer]")
+				DateOfCreation = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[date of creation]")),
+				DateOfLastRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[date of last recall]")),
+				Level = byte.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[level-]")),
+				DateOfNextRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[date of next recall]")),
+				Question = TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[question]"),
+				Answer = TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[answer]")
 			};
 
 			return card;
 		}
-		public static Card GetOldestCard(List<Card> list)
+		// 6.1 Было list стало listOfMnemoCards.
+		public static Card GetOldestCard(List<Card> listOfMnemoCards)
 		{
 			var buffercard = new Card();
 			TimeSpan interval = new TimeSpan();
 			buffercard.DateOfNextRecall = DateTime.Now;
 			var cardWithBiggerInterval = new Card();
-			foreach (var item in list)
+
+			foreach (var card in listOfMnemoCards)
 			{
-				if (interval<buffercard.DateOfNextRecall-item.DateOfNextRecall)
+				if (interval<buffercard.DateOfNextRecall-card.DateOfNextRecall)
 				{
-					interval = buffercard.DateOfNextRecall - item.DateOfNextRecall;
-					cardWithBiggerInterval = item;
+					interval = buffercard.DateOfNextRecall - card.DateOfNextRecall;
+					cardWithBiggerInterval = card;
 				}
 			}
 			return cardWithBiggerInterval;
