@@ -24,7 +24,7 @@ namespace CogniMnemo.Controllers
 			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
 			// 6.4 было iteration, стало charIndexInAttribute.
 			var charIndexInAttribute = text.IndexOf(attributeFlag);
-			bool insideattribute = false;
+			bool insideAnAttribute = false;
 			var attributeWordBuffer = new StringBuilder();
 			// 6.1 Было textout стало parsedTextFromCard.
 			var parsedTextFromCard = new StringBuilder();

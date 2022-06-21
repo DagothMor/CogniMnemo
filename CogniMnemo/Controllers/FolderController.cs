@@ -19,6 +19,7 @@ namespace CogniMnemo.Controllers
 		/// <returns>New renamed file conflicting in the process.</returns>
 		public static string SafeFileRename(string oldPath, string newPath)
 		{
+			// 7.4 начальное и конечное значение конфликтого имени файла.
 			string startConflictFileName = newPath;
 			string finishConflictFileName = newPath;
 			bool fileIsExist = false;
