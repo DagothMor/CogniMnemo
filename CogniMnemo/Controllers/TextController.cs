@@ -24,7 +24,7 @@ namespace CogniMnemo.Controllers
 			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
 			// 6.4 было iteration, стало charIndexInAttribute.
 			var charIndexInAttribute = text.IndexOf(attributeFlag);
-			bool insideAnAttribute = false;
+			// было insideAnAttribute стало isInAttribute
 			var attributeWordBuffer = new StringBuilder();
 			// 6.1 Было textout стало parsedTextFromCard.
 			var parsedTextFromCard = new StringBuilder();
@@ -91,7 +91,8 @@ namespace CogniMnemo.Controllers
 			var listOfCharsFromCard = textFromMnemoCard.ToCharArray().ToList();
 			var listOfAttributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
 			var iterationOfCardText = textFromMnemoCard.IndexOf(attributeFlag);
-			bool insideAnAttribute = false;
+			// 7.1 было insideAnAttribute стало isInAttribute
+			bool isInAttribute = false;
 			var attributeWordBuffer = new StringBuilder();
 			var textout = new StringBuilder();
 
@@ -110,7 +111,7 @@ namespace CogniMnemo.Controllers
 
 			for (; iterationOfCardText < listOfCharsFromCard.Count; iterationOfCardText++)
 			{
-				if (insideAnAttribute == true)
+				if (isInAttribute == true)
 				{
 					if (listOfCharsFromCard[iterationOfCardText] == ']')
 					{
@@ -123,7 +124,7 @@ namespace CogniMnemo.Controllers
 							break;
 						}
 						listOfCharsFromCard.RemoveRange(startdeletebufferindex, enddeletebufferindex);
-						insideAnAttribute = false;
+						isInAttribute = false;
 						attributeWordBuffer.Clear();
 						startdeletebufferindex = 0;
 						enddeletebufferindex = 0;
@@ -142,7 +143,7 @@ namespace CogniMnemo.Controllers
 						attributeWordBuffer.Append('[');
 						startdeletebufferindex = iterationOfCardText;
 						enddeletebufferindex = 1;
-						insideAnAttribute = true;
+						isInAttribute = true;
 						continue;
 					}
 					else
