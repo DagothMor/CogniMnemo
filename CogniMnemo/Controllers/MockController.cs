@@ -20,10 +20,10 @@ namespace CogniMnemo.Controllers
 
 		}
 		public static void DeleteAllCardsInDataBase() {
-			var listOfPaths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
-			foreach (var item in listOfPaths)
+			var paths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
+			foreach (var path in paths)
 			{
-				File.Delete(item);
+				File.Delete(path);
 			}
 		}
 	}

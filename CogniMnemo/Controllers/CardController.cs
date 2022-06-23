@@ -84,8 +84,9 @@ namespace CogniMnemo.Controllers
 		{
 			// 6.1 Было count, стало countOfValidatedCards
 			int countOfValidatedCards = 0;
-			var rawlist = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
-			foreach (string path in rawlist)
+			// было rawlist стало countOfAllCards.
+			var countOfAllCards = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
+			foreach (string path in countOfAllCards)
 			{
 				if (CardNameValidation(path)) { countOfValidatedCards++; }
 			}
@@ -112,15 +113,15 @@ namespace CogniMnemo.Controllers
 		/// </summary>
 		public static void DisplayAllCards()
 		{
-			var listOfPaths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
-			var listOfCards = new List<string>();
-			foreach (var item in listOfPaths)
+			var paths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
+			var cards = new List<string>();
+			foreach (var card in paths)
 			{
-				listOfCards.Add("Card id:" + Path.GetFileNameWithoutExtension(item) + Environment.NewLine + File.ReadAllText(item));
+				cards.Add("Card id:" + Path.GetFileNameWithoutExtension(card) + Environment.NewLine + File.ReadAllText(card));
 			}
-			foreach (var item in listOfCards)
+			foreach (var card in cards)
 			{
-				Console.Write(item);
+				Console.Write(card);
 				Console.WriteLine("_____________");
 			}
 			Console.WriteLine("Press enter for back to Card menu.");

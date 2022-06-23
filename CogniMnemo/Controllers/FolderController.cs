@@ -19,7 +19,8 @@ namespace CogniMnemo.Controllers
 		/// <returns>New renamed file conflicting in the process.</returns>
 		public static string SafeFileRename(string oldPath, string newPath)
 		{
-			string startConflictFileName = newPath;
+			// было startConflictFileName стало existedConflictFileName
+			string existedConflictFileName = newPath;
 			string finishConflictFileName = newPath;
 			bool fileIsExist = false;
 			int iteration = 1;
@@ -37,7 +38,7 @@ namespace CogniMnemo.Controllers
 					iteration++;
 				}
 			}
-			if (fileIsExist) { File.Move(startConflictFileName, finishConflictFileName); }
+			if (fileIsExist) { File.Move(existedConflictFileName, finishConflictFileName); }
 			File.Move(oldPath, newPath);
 			return finishConflictFileName;
 
@@ -64,30 +65,31 @@ namespace CogniMnemo.Controllers
 		/// <returns>New path</returns>
 		public static string CreateNewNameForFilePath(string filepath, string newname)
 		{
-			List<char> oldpathlist = filepath.ToCharArray().ToList();
-			for (int i = oldpathlist.Count - 1; i >= 0; i--)
+			// было oldpathlist стало oldpathstring
+			List<char> oldPathString = filepath.ToCharArray().ToList();
+			for (int i = oldPathString.Count - 1; i >= 0; i--)
 			{
-				if (oldpathlist[i] == '.')
+				if (oldPathString[i] == '.')
 				{
 					i--;
-					while (oldpathlist[i] != '\\')
+					while (oldPathString[i] != '\\')
 					{
-						oldpathlist.RemoveAt(i);
+						oldPathString.RemoveAt(i);
 						i--;
 					}
 					i++;
 					for (int j = 0; j < newname.Length; j++)
 					{
-						oldpathlist.Insert(i, newname[j]);
+						oldPathString.Insert(i, newname[j]);
 						i++;
 					}
 					break;
 				}
 			}
 			var newfilename = new StringBuilder();
-			for (int i = 0; i < oldpathlist.Count; i++)
+			for (int i = 0; i < oldPathString.Count; i++)
 			{
-				newfilename.Append(oldpathlist[i]);
+				newfilename.Append(oldPathString[i]);
 			}
 			return newfilename.ToString();
 		}
@@ -99,33 +101,33 @@ namespace CogniMnemo.Controllers
 		/// <returns>new copy name for file path</returns>
 		public static string CreateNewCopyNameForFilePath(string filepath, int iteration)
 		{
-			List<char> oldpathlist = filepath.ToCharArray().ToList();
+			List<char> oldPathString = filepath.ToCharArray().ToList();
 			int buffer = 0;
-			for (int i = oldpathlist.Count - 1; i >= 0; i--)
+			for (int i = oldPathString.Count - 1; i >= 0; i--)
 			{
-				if (oldpathlist[i] == '.')
+				if (oldPathString[i] == '.')
 				{
 					i--;
-					while (oldpathlist[i] != '(')
+					while (oldPathString[i] != '(')
 					{
-						oldpathlist.RemoveAt(i);
+						oldPathString.RemoveAt(i);
 						i--;
 					}
 					i++;
 					for (int j = 0; j < iteration.ToString().Length; j++)
 					{
-						oldpathlist.Insert(i, iteration.ToString()[j]);
+						oldPathString.Insert(i, iteration.ToString()[j]);
 						i++;
 					}
 					buffer = i;
 					break;
 				}
 			}
-			oldpathlist.Insert(buffer, ')');
+			oldPathString.Insert(buffer, ')');
 			var newfilename = new StringBuilder();
-			for (int i = 0; i < oldpathlist.Count; i++)
+			for (int i = 0; i < oldPathString.Count; i++)
 			{
-				newfilename.Append(oldpathlist[i]);
+				newfilename.Append(oldPathString[i]);
 			}
 
 			return newfilename.ToString();
