@@ -99,7 +99,9 @@ namespace CogniMnemo.Controllers
 		/// <returns></returns>
 		public static bool CardNameValidation(string pathfile)
 		{
-			if (int.TryParse(Path.GetFileNameWithoutExtension(pathfile), out _))
+			// 7.2 Добавлена bool PathFileIsFound
+			var PathFileIsFound = int.TryParse(Path.GetFileNameWithoutExtension(pathfile), out _);
+			if (PathFileIsFound)
 			{
 				if (TextController.AutomatedInsertCardTextValidation(pathfile))
 				{

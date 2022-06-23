@@ -25,6 +25,8 @@ namespace CogniMnemo.Controllers
 			// 6.4 было iteration, стало charIndexInAttribute.
 			var charIndexInAttribute = cardText.IndexOf(attributeFlag);
 			bool insideattribute = false;
+			var charIndexInAttribute = text.IndexOf(attributeFlag);
+			// было insideAnAttribute стало isInAttribute
 			var attributeWordBuffer = new StringBuilder();
 			// 6.1 Было textout стало parsedTextFromCard.
 			var parsedTextFromCard = new StringBuilder();
@@ -91,7 +93,8 @@ namespace CogniMnemo.Controllers
 			var сharsFromCard = textFromMnemoCard.ToCharArray().ToList();
 			var attributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
 			var iterationOfCardText = textFromMnemoCard.IndexOf(attributeFlag);
-			bool insideAnAttribute = false;
+			// 7.1 было insideAnAttribute стало isInAttribute
+			bool isInAttribute = false;
 			var attributeWordBuffer = new StringBuilder();
 			var textout = new StringBuilder();
 
@@ -110,7 +113,7 @@ namespace CogniMnemo.Controllers
 
 			for (; iterationOfCardText < сharsFromCard.Count; iterationOfCardText++)
 			{
-				if (insideAnAttribute == true)
+				if (isInAttribute == true)
 				{
 					if (сharsFromCard[iterationOfCardText] == ']')
 					{
@@ -142,7 +145,7 @@ namespace CogniMnemo.Controllers
 						attributeWordBuffer.Append('[');
 						startdeletebufferindex = iterationOfCardText;
 						enddeletebufferindex = 1;
-						insideAnAttribute = true;
+						isInAttribute = true;
 						continue;
 					}
 					else

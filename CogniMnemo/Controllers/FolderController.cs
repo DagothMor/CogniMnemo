@@ -21,6 +21,8 @@ namespace CogniMnemo.Controllers
 		{
 			// было startConflictFileName стало existedConflictFileName
 			string existedConflictFileName = newPath;
+			// 7.4 начальное и конечное значение конфликтого имени файла.
+			string startConflictFileName = newPath;
 			string finishConflictFileName = newPath;
 			bool fileIsExist = false;
 			int iteration = 1;

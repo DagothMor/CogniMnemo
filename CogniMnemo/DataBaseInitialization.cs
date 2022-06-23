@@ -15,6 +15,8 @@ namespace CogniMnemo
 		{
 			var readylist = new List<string>();
 			var filtratedqueue = new Queue<string>();
+			// 7.2 Добавил Success.
+			var success = false;
 
 			CheckForExistFolder();
 
@@ -22,12 +24,14 @@ namespace CogniMnemo
 
 			for (int i = 0; i < bufferlist.Count; i++)
 			{
-				if (TextController.ManualInsertCardTextValidation(bufferlist[i]))
+				success = TextController.ManualInsertCardTextValidation(bufferlist[i]);
+				if (success)
 				{
 					filtratedqueue.Enqueue(bufferlist[i]);
 					continue;
 				}
-				if (TextController.AutomatedInsertCardTextValidation(bufferlist[i]))
+				success = TextController.AutomatedInsertCardTextValidation(bufferlist[i]);
+				if (success)
 				{
 					readylist.Add(bufferlist[i]);
 					continue;
