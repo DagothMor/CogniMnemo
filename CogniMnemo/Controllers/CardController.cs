@@ -88,7 +88,7 @@ namespace CogniMnemo.Controllers
 			var countOfAllCards = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
 			foreach (string path in countOfAllCards)
 			{
-				if (CardNameValidation(path)) { countOfValidatedCards++; }
+				if (CardNameIsValid(path)) { countOfValidatedCards++; }
 			}
 			return countOfValidatedCards;
 		}
@@ -97,7 +97,7 @@ namespace CogniMnemo.Controllers
 		/// </summary>
 		/// <param name="pathfile">path file</param>
 		/// <returns></returns>
-		public static bool CardNameValidation(string pathfile)
+		public static bool CardNameIsValid(string pathfile)
 		{
 			// 7.2 Добавлена bool PathFileIsFound
 			var PathFileIsFound = int.TryParse(Path.GetFileNameWithoutExtension(pathfile), out _);

@@ -6,7 +6,7 @@ namespace CogniMnemo
 	/// <summary>
 	/// New card.
 	/// </summary>
-	public static class CreateNewCardMenu
+	public static class NewCardMenu
 	{
 		public static void Start()
 		{

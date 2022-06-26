@@ -22,7 +22,7 @@ namespace CogniMnemo.Menus
 				var validatedCardPaths = new List<string>();
 				foreach (var item in listOfAllFilePaths)
 				{
-					if (CardController.CardNameValidation(item))
+					if (CardController.CardNameIsValid(item))
 					{
 						// 6.4 было listOfAllWorkableFilePaths стало validatedCardPaths
 						validatedCardPaths.Add(item);

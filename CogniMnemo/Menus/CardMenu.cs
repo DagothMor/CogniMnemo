@@ -31,7 +31,7 @@ namespace CogniMnemo.Menus
 				else if (int.Parse(input) == 1)
 				{
 					Console.Clear();
-					CreateNewCardMenu.Start();
+					NewCardMenu.Start();
 				}
 				else if (int.Parse(input) == 2)
 				{
