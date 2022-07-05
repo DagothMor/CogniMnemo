@@ -11,7 +11,9 @@ namespace CogniMnemo
 	/// </summary>
 	public static class DataBaseInitialization
 	{
-		public static void Start()
+        private const string DATA_BASE_FOLDER = @"CorgiMnemoDataBase\";
+
+        public static void Start()
 		{
 			var readylist = new List<string>();
 			var filtratedqueue = new Queue<string>();
@@ -90,9 +92,9 @@ namespace CogniMnemo
 		/// </summary>
 		public static void CheckForExistFolder()
 		{
-			if (!Directory.Exists($"{AppContext.BaseDirectory}" + @"CorgiMnemoDataBase\"))
+			if (!Directory.Exists($"{AppContext.BaseDirectory}" + DATA_BASE_FOLDER))
 			{
-				Directory.CreateDirectory($"{AppContext.BaseDirectory}" + @"CorgiMnemoDataBase\");
+				Directory.CreateDirectory($"{AppContext.BaseDirectory}" + DATA_BASE_FOLDER);
 			}
 		}
 

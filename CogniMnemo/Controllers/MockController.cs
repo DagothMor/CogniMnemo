@@ -9,7 +9,9 @@ namespace CogniMnemo.Controllers
 {
 	public static class MockController
 	{
-		public static void CreateListOfTemplateCards()
+        private const string DATA_BASE_FOLDER = @"CorgiMnemoDataBase\";
+
+        public static void CreateListOfTemplateCards()
 		{
 			CardController.AddAuthomatedCard("kek?", "kek!");
 			CardController.AddAuthomatedCard("kak?", "kak!");
@@ -20,7 +22,7 @@ namespace CogniMnemo.Controllers
 
 		}
 		public static void DeleteAllCardsInDataBase() {
-			var paths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
+			var paths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + DATA_BASE_FOLDER);
 			foreach (var path in paths)
 			{
 				File.Delete(path);

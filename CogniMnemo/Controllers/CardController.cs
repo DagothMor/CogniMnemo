@@ -11,15 +11,17 @@ namespace CogniMnemo.Controllers
 	/// </summary>
 	public static class CardController
 	{
-		/// <summary>
-		/// Added a working card.
-		/// </summary>
-		/// <param name="question">question</param>
-		/// <param name="answer">answer</param>
-		public static void AddAuthomatedCard(string question, string answer)
+        private const string DATA_BASE_FOLDER = @"CorgiMnemoDataBase\";
+
+        /// <summary>
+        /// Added a working card.
+        /// </summary>
+        /// <param name="question">question</param>
+        /// <param name="answer">answer</param>
+        public static void AddAuthomatedCard(string question, string answer)
 		{
 			
-			var dataBaseFolder = $"{AppContext.BaseDirectory}" + @"CorgiMnemoDataBase\";
+			var dataBaseFolder = $"{AppContext.BaseDirectory}" + DATA_BASE_FOLDER;
 			string pathToWrite = dataBaseFolder + $"{GetNumberOfCardsInDataBaseFolder()}.txt";
 			var textFromMnemoCard = new StringBuilder();
 			// 6.1 Было text, стало textFromMnemoCard
@@ -85,7 +87,7 @@ namespace CogniMnemo.Controllers
 			// 6.1 Было count, стало countOfValidatedCards
 			int countOfValidatedCards = 0;
 			// было rawlist стало countOfAllCards.
-			var countOfAllCards = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
+			var countOfAllCards = Directory.GetFiles($"{ AppContext.BaseDirectory }" + DATA_BASE_FOLDER);
 			foreach (string path in countOfAllCards)
 			{
 				if (CardNameIsValid(path)) { countOfValidatedCards++; }
@@ -115,7 +117,7 @@ namespace CogniMnemo.Controllers
 		/// </summary>
 		public static void DisplayAllCards()
 		{
-			var paths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
+			var paths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + DATA_BASE_FOLDER);
 			var cards = new List<string>();
 			foreach (var card in paths)
 			{
@@ -134,7 +136,7 @@ namespace CogniMnemo.Controllers
 			try
 			{
 				// 6.1 Было text, стало textFromMnemoCard
-				string textFromMnemoCard = File.ReadAllText($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\" + $"{number}" + ".txt");
+				string textFromMnemoCard = File.ReadAllText($"{ AppContext.BaseDirectory }" + DATA_BASE_FOLDER + $"{number}" + ".txt");
 				Console.Write(textFromMnemoCard);
 				Console.WriteLine("_____________");
 				Console.WriteLine("Press enter for back to Card menu.");

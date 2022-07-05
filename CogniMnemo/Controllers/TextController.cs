@@ -11,13 +11,15 @@ namespace CogniMnemo.Controllers
 	/// </summary>
 	public static class TextController
 	{
-		/// <summary>
-		/// Return a text after a inputed attribute.
-		/// </summary>
-		/// <param name="cardText">text of file</param>
-		/// <param name="attributeFlag">the attribute after which you want to read the text</param>
-		/// <returns>text which going after a pointed attribute</returns>
-		public static string ParsingTextFromManualOrAuthomatedInsertCard(string cardText, string attributeFlag)
+        private const string DATA_BASE_FOLDER = @"CorgiMnemoDataBase\";
+
+        /// <summary>
+        /// Return a text after a inputed attribute.
+        /// </summary>
+        /// <param name="cardText">text of file</param>
+        /// <param name="attributeFlag">the attribute after which you want to read the text</param>
+        /// <returns>text which going after a pointed attribute</returns>
+        public static string ParsingTextFromManualOrAuthomatedInsertCard(string cardText, string attributeFlag)
 		{
 			// 6.4 Было list стало listOfCharsFromCards.
 			var сharsFromCard = cardText.ToCharArray().ToList();
@@ -25,7 +27,6 @@ namespace CogniMnemo.Controllers
 			// 6.4 было iteration, стало charIndexInAttribute.
 			var charIndexInAttribute = cardText.IndexOf(attributeFlag);
 			bool insideattribute = false;
-			var charIndexInAttribute = text.IndexOf(attributeFlag);
 			// было insideAnAttribute стало isInAttribute
 			var attributeWordBuffer = new StringBuilder();
 			// 6.1 Было textout стало parsedTextFromCard.
@@ -87,7 +88,7 @@ namespace CogniMnemo.Controllers
 		/// <returns>text which going after a pointed attribute</returns>
 		public static void RewriteTextFromWorkableCard(int id, string attributeFlag,string replacementText) // 6.1 Было newtext стало replacementText
 		{
-			string path = $"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\"+$"{id}"+".txt";
+            string path = $"{AppContext.BaseDirectory}" + DATA_BASE_FOLDER + $"{id}" + ".txt";
 			// 6.1 было cardtext стало textFromMnemoCard.
 			var textFromMnemoCard = File.ReadAllText(path);
 			var сharsFromCard = textFromMnemoCard.ToCharArray().ToList();
@@ -126,7 +127,7 @@ namespace CogniMnemo.Controllers
 							break;
 						}
 						сharsFromCard.RemoveRange(startdeletebufferindex, enddeletebufferindex);
-						insideAnAttribute = false;
+						isInAttribute = false;
 						attributeWordBuffer.Clear();
 						startdeletebufferindex = 0;
 						enddeletebufferindex = 0;

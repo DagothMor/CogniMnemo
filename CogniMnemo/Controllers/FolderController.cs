@@ -11,13 +11,15 @@ namespace CogniMnemo.Controllers
 	/// </summary>
 	public static class FolderController
 	{
-		/// <summary>
-		/// Safe file rename.
-		/// </summary>
-		/// <param name="oldPath">old path</param>
-		/// <param name="newPath">new path</param>
-		/// <returns>New renamed file conflicting in the process.</returns>
-		public static string SafeFileRename(string oldPath, string newPath)
+        private const string DATA_BASE_FOLDER = @"CorgiMnemoDataBase\";
+
+        /// <summary>
+        /// Safe file rename.
+        /// </summary>
+        /// <param name="oldPath">old path</param>
+        /// <param name="newPath">new path</param>
+        /// <returns>New renamed file conflicting in the process.</returns>
+        public static string SafeFileRename(string oldPath, string newPath)
 		{
 			// было startConflictFileName стало existedConflictFileName
 			string existedConflictFileName = newPath;
@@ -52,7 +54,7 @@ namespace CogniMnemo.Controllers
 		public static List<string> GetAllFileNamesInDataBase()
 		{
 			var PathsOfCardsInDataBase = new List<string>();
-			var paths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + @"CorgiMnemoDataBase\");
+			var paths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + DATA_BASE_FOLDER);
 			for (int i = 0; i < paths.Length; i++)
 			{
 				PathsOfCardsInDataBase.Add(paths[i]);
