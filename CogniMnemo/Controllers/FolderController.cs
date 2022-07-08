@@ -71,12 +71,15 @@ namespace CogniMnemo.Controllers
 		{
 			// было oldpathlist стало oldpathstring
 			List<char> oldPathString = filepath.ToCharArray().ToList();
+			// Выделил булеву для удобочитаемости.
+			bool indexCharEqualDoubleBackSlash;
 			for (int i = oldPathString.Count - 1; i >= 0; i--)
 			{
 				if (oldPathString[i] == '.')
 				{
 					i--;
-					while (oldPathString[i] != '\\')
+					indexCharEqualDoubleBackSlash = oldPathString[i] == '\\';
+					while (!indexCharEqualDoubleBackSlash)
 					{
 						oldPathString.RemoveAt(i);
 						i--;
