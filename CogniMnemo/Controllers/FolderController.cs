@@ -131,6 +131,7 @@ namespace CogniMnemo.Controllers
 				}
 			}
 			oldPathString.Insert(buffer, ')');
+			buffer = -1;
 			var newfilename = new StringBuilder();
 			for (int i = 0; i < oldPathString.Count; i++)
 			{
