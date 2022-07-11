@@ -23,14 +23,7 @@ namespace CogniMnemo.Controllers
 		{
 			// 6.4 Было list стало listOfCharsFromCards.
 			var сharsFromCard = cardText.ToCharArray().ToList();
-			var attributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
-			// 6.4 было iteration, стало charIndexInAttribute.
 			var charIndexInAttribute = cardText.IndexOf(attributeFlag);
-			bool insideattribute = false;
-			// было insideAnAttribute стало isInAttribute
-			var attributeWordBuffer = new StringBuilder();
-			// 6.1 Было textout стало parsedTextFromCard.
-			var parsedTextFromCard = new StringBuilder();
 			for (; charIndexInAttribute < сharsFromCard.Count; charIndexInAttribute++)
 			{
 				if (cardText[charIndexInAttribute] == ']')
@@ -39,6 +32,13 @@ namespace CogniMnemo.Controllers
 					break;
 				}
 			}
+			var attributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
+			// 6.4 было iteration, стало charIndexInAttribute.
+			bool insideattribute = false;
+			// было insideAnAttribute стало isInAttribute
+			var attributeWordBuffer = new StringBuilder();
+			// 6.1 Было textout стало parsedTextFromCard.
+			var parsedTextFromCard = new StringBuilder();
 			// 6.4 было indexLetterAfterAtributeFlag стало charIndexInValue
 			var charIndexInValue = charIndexInAttribute;
 			for (; charIndexInValue < сharsFromCard.Count; charIndexInValue++)
@@ -97,8 +97,6 @@ namespace CogniMnemo.Controllers
 			// 7.1 было insideAnAttribute стало isInAttribute
 			bool isInAttribute = false;
 			var attributeWordBuffer = new StringBuilder();
-			var textout = new StringBuilder();
-
 			var startdeletebufferindex = 0;
 			var enddeletebufferindex = 0;
 
@@ -172,15 +170,17 @@ namespace CogniMnemo.Controllers
 			{
 				сharsFromCard.Insert(iterationOfCardText, replacementText[i]);
 			}
+			var rewritedTextOfCard = new StringBuilder();
 			foreach (var letter in сharsFromCard)
 			{
-				textout.Append(letter);
+				rewritedTextOfCard.Append(letter);
 			}
-			File.WriteAllText(path, textout.ToString());
+			File.WriteAllText(path, rewritedTextOfCard.ToString());
 		}
 
 		/// <summary>
 		/// Checks the text validity of the card.
+		/// Нужно проверять первые символы строк до какогото определенного флага.
 		/// </summary>
 		/// <param name="pathfile">path file</param>
 		/// <returns>true if card have all automated attributes</returns>

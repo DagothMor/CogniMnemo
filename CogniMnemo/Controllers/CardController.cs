@@ -21,7 +21,7 @@ namespace CogniMnemo.Controllers
         public static void AddAuthomatedCard(string question, string answer)
 		{
 			
-			var dataBaseFolder = $"{AppContext.BaseDirectory}" + DATA_BASE_FOLDER;
+			var dataBaseFolder = $"{AppContext.BaseDirectory}{DATA_BASE_FOLDER}";
 			string pathToWrite = dataBaseFolder + $"{GetNumberOfCardsInDataBaseFolder()}.txt";
 			var textFromMnemoCard = new StringBuilder();
 			// 6.1 Было text, стало textFromMnemoCard
@@ -38,7 +38,6 @@ namespace CogniMnemo.Controllers
 			{
 				using StreamWriter sw = new StreamWriter(pathToWrite);
 				sw.Write(textFromMnemoCard.ToString());
-				//Console.WriteLine("recording completed.");
 			}
 			catch (Exception e)
 			{
