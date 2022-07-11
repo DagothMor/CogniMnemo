@@ -88,35 +88,36 @@ namespace CogniMnemo.Controllers
 		/// <returns>text which going after a pointed attribute</returns>
 		public static void RewriteTextFromWorkableCard(int id, string attributeFlag,string replacementText) // 6.1 Было newtext стало replacementText
 		{
-            string path = $"{AppContext.BaseDirectory}" + DATA_BASE_FOLDER + $"{id}" + ".txt";
+			// Был переименован path в pathToDataBaseFolder
+			string pathToDataBaseFolder = $"{AppContext.BaseDirectory}" + DATA_BASE_FOLDER + $"{id}" + ".txt";
 			// 6.1 было cardtext стало textFromMnemoCard.
-			var textFromMnemoCard = File.ReadAllText(path);
+			var textFromMnemoCard = File.ReadAllText(pathToDataBaseFolder);
 			var сharsFromCard = textFromMnemoCard.ToCharArray().ToList();
-			var attributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
-			var iterationOfCardText = textFromMnemoCard.IndexOf(attributeFlag);
+			var endIndexOfAtribute = textFromMnemoCard.IndexOf(attributeFlag);
+			for (; endIndexOfAtribute < сharsFromCard.Count; endIndexOfAtribute++)
+			{
+				if (сharsFromCard[endIndexOfAtribute] == ']')
+				{
+					endIndexOfAtribute++;
+					break;
+				}
+			}
+			var startIndexOfText = endIndexOfAtribute;
+			endIndexOfAtribute = -1;
 			// 7.1 было insideAnAttribute стало isInAttribute
 			bool isInAttribute = false;
 			var attributeWordBuffer = new StringBuilder();
 			var startdeletebufferindex = 0;
 			var enddeletebufferindex = 0;
+			var attributes = new List<string>() { "[date of creation]", "[date of last recall]", "[level-]", "[date of next recall]", "[question]", "[answer]", "[!]", "[?]", "[zerolinks]", "[tags]", "[links]" };
 
-			for (; iterationOfCardText < сharsFromCard.Count; iterationOfCardText++)
-			{
-				if (сharsFromCard[iterationOfCardText] == ']')
-				{
-					iterationOfCardText++;
-					break;
-				}
-			}
-
-
-			for (; iterationOfCardText < сharsFromCard.Count; iterationOfCardText++)
+			for (; startIndexOfText < сharsFromCard.Count; startIndexOfText++)
 			{
 				if (isInAttribute == true)
 				{
-					if (сharsFromCard[iterationOfCardText] == ']')
+					if (сharsFromCard[startIndexOfText] == ']')
 					{
-						attributeWordBuffer.Append(сharsFromCard[iterationOfCardText]);
+						attributeWordBuffer.Append(сharsFromCard[startIndexOfText]);
 						enddeletebufferindex++;
 						string attributeWord = attributeWordBuffer.ToString();
 						if (attributes.Contains(attributeWord))
@@ -133,34 +134,34 @@ namespace CogniMnemo.Controllers
 					}
 					else
 					{
-						attributeWordBuffer.Append(сharsFromCard[iterationOfCardText]);
+						attributeWordBuffer.Append(сharsFromCard[startIndexOfText]);
 						enddeletebufferindex++;
 					}
 				}
 				else
 				{
-					if (сharsFromCard[iterationOfCardText] == '[')
+					if (сharsFromCard[startIndexOfText] == '[')
 					{
 						attributeWordBuffer.Append('[');
-						startdeletebufferindex = iterationOfCardText;
+						startdeletebufferindex = startIndexOfText;
 						enddeletebufferindex = 1;
 						isInAttribute = true;
 						continue;
 					}
 					else
 					{
-						сharsFromCard.RemoveAt(iterationOfCardText);
-						iterationOfCardText--;
+						сharsFromCard.RemoveAt(startIndexOfText);
+						startIndexOfText--;
 					}
 				}
 			}
-			iterationOfCardText = textFromMnemoCard.IndexOf(attributeFlag);
+			startIndexOfText = textFromMnemoCard.IndexOf(attributeFlag);
 
-			for (; iterationOfCardText < сharsFromCard.Count; iterationOfCardText++)
+			for (; startIndexOfText < сharsFromCard.Count; startIndexOfText++)
 			{
-				if (сharsFromCard[iterationOfCardText] == ']')
+				if (сharsFromCard[startIndexOfText] == ']')
 				{
-					iterationOfCardText++;
+					startIndexOfText++;
 					break;
 				}
 			}
@@ -168,14 +169,14 @@ namespace CogniMnemo.Controllers
 			//iterationOfCardText++;
 			for(int i = replacementText.Length-1; i > -1; i--)
 			{
-				сharsFromCard.Insert(iterationOfCardText, replacementText[i]);
+				сharsFromCard.Insert(startIndexOfText, replacementText[i]);
 			}
 			var rewritedTextOfCard = new StringBuilder();
 			foreach (var letter in сharsFromCard)
 			{
 				rewritedTextOfCard.Append(letter);
 			}
-			File.WriteAllText(path, rewritedTextOfCard.ToString());
+			File.WriteAllText(pathToDataBaseFolder, rewritedTextOfCard.ToString());
 		}
 
 		/// <summary>
