@@ -188,26 +188,23 @@ namespace CogniMnemo.Controllers
 		public static bool AutomatedInsertCardTextValidation(string pathfile)
 		{
 			var card = File.ReadAllText(pathfile);
-			if (card.Contains("[date of creation]"))
-			{
-				if (card.Contains("[date of last recall]"))
-				{
-					if (card.Contains("[level-]"))
-					{
-						if (card.Contains("[date of next recall]"))
-						{
-							if (card.Contains("[question]"))
-							{
-								if (card.Contains("[answer]"))
-								{
-									return true;
-								}
-							}
-						}
-					}
-				}
-			}
-			return false;
+            if (card.Contains("[date of creation]") && card.Contains("[date of last recall]"))
+            {
+                if (card.Contains("[level-]"))
+                {
+                    if (card.Contains("[date of next recall]"))
+                    {
+                        if (card.Contains("[question]"))
+                        {
+                            if (card.Contains("[answer]"))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
 		}
 		/// <summary>
 		/// Checks the text validity of the card which inserted manual.
