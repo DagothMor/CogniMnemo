@@ -69,19 +69,19 @@ namespace CogniMnemo.Menus
 					var userinput = Console.ReadLine();
 					if (userinput.ToLower() == "y")
 					{
-						TextController.RewriteTextFromWorkableCard(oldercard.Id, "date of last recall", DateTime.Now.ToString() + Environment.NewLine);
+						TextController.RewriteTextAfterAnInputAttribute(oldercard.Id, "date of last recall", DateTime.Now.ToString() + Environment.NewLine);
 						oldercard.DateOfNextRecall = EbbinghausCurve.GetTimeRecallByForgettingCurve(DateTime.Now, oldercard.Level, '+');
-						TextController.RewriteTextFromWorkableCard(oldercard.Id, "date of next recall", oldercard.DateOfNextRecall.ToString() + Environment.NewLine);
+						TextController.RewriteTextAfterAnInputAttribute(oldercard.Id, "date of next recall", oldercard.DateOfNextRecall.ToString() + Environment.NewLine);
 						oldercard.Level++;
-						TextController.RewriteTextFromWorkableCard(oldercard.Id, "level-", oldercard.Level.ToString() + Environment.NewLine);
+						TextController.RewriteTextAfterAnInputAttribute(oldercard.Id, "level-", oldercard.Level.ToString() + Environment.NewLine);
 						break;
 					}
 					if (userinput.ToLower() == "n")
 					{
-						TextController.RewriteTextFromWorkableCard(oldercard.Id, "date of last recall", DateTime.Now.ToString() + Environment.NewLine);
+						TextController.RewriteTextAfterAnInputAttribute(oldercard.Id, "date of last recall", DateTime.Now.ToString() + Environment.NewLine);
 						oldercard.DateOfNextRecall = EbbinghausCurve.GetTimeRecallByForgettingCurve(DateTime.Now, oldercard.Level, '-');
-						TextController.RewriteTextFromWorkableCard(oldercard.Id, "date of next recall", oldercard.DateOfNextRecall.ToString() + Environment.NewLine);
-						if (oldercard.Level != 0) { oldercard.Level--; TextController.RewriteTextFromWorkableCard(oldercard.Id, "level-", oldercard.Level.ToString() + Environment.NewLine); }
+						TextController.RewriteTextAfterAnInputAttribute(oldercard.Id, "date of next recall", oldercard.DateOfNextRecall.ToString() + Environment.NewLine);
+						if (oldercard.Level != 0) { oldercard.Level--; TextController.RewriteTextAfterAnInputAttribute(oldercard.Id, "level-", oldercard.Level.ToString() + Environment.NewLine); }
 						break;
 					}
 				}

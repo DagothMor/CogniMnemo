@@ -61,8 +61,8 @@ namespace CogniMnemo.Controllers
             {
                 File.WriteAllText(path, string.Empty);
                 var text = File.ReadAllText(path);
-                string question = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[?]");
-                string answer = TextController.ParsingTextFromManualOrAuthomatedInsertCard(text, "[!]");
+                string question = TextController.ParsingTextFromCardAttribute(text, "[?]");
+                string answer = TextController.ParsingTextFromCardAttribute(text, "[!]");
                 using (StreamWriter sw = new StreamWriter(path))
                 {
 
@@ -91,6 +91,8 @@ namespace CogniMnemo.Controllers
             }
             return countOfValidatedCards;
         }
+
+
         /// <summary>
         /// Checking for valid card name.
         /// </summary>
@@ -102,7 +104,7 @@ namespace CogniMnemo.Controllers
             var PathFileIsFound = int.TryParse(Path.GetFileNameWithoutExtension(pathfile), out _);
             if (PathFileIsFound)
             {
-                if (TextController.AutomatedInsertCardTextValidation(pathfile))
+                if (TextController.AutomatedCardHasAllAttributes(pathfile))
                 {
                     return true;
                 }
@@ -146,35 +148,11 @@ namespace CogniMnemo.Controllers
                 Console.ReadLine();
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
         public static Card GetCardFromPathFile(string path)
         {
-            var textFromMnemoCard = File.ReadAllText(path);
-            Card card = null;
             try
             {
-                int id = int.Parse(Path.GetFileNameWithoutExtension(path));
-                DateTime dateOfCreation = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[date of creation]"));
-                DateTime dateOfLastRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[date of last recall]"));
-                byte level = byte.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[level-]"));
-                DateTime dateOfNextRecall = DateTime.Parse(TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[date of next recall]"));
-                string question = TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[question]");
-                string answer = TextController.ParsingTextFromManualOrAuthomatedInsertCard(textFromMnemoCard, "[answer]");
-                card = new Card
-                {
-                    Id = id,
-                    DateOfCreation = dateOfCreation,
-                    DateOfLastRecall = dateOfLastRecall,
-                    Level = level,
-                    DateOfNextRecall = dateOfNextRecall,
-                    Question = question,
-                    Answer = answer
-                };
-                return card;
+                return CreateCardFromPathWithInputedText(path);
             }
             catch (Exception e)
             {
@@ -182,6 +160,31 @@ namespace CogniMnemo.Controllers
             }
             
         }
+
+        public static Card CreateCardFromPathWithInputedText(string path)
+        {
+            var textFromMnemoCard = File.ReadAllText(path);
+            Card card;
+            int id = int.Parse(Path.GetFileNameWithoutExtension(path));
+            DateTime dateOfCreation = DateTime.Parse(TextController.ParsingTextFromCardAttribute(textFromMnemoCard, "[date of creation]"));
+            DateTime dateOfLastRecall = DateTime.Parse(TextController.ParsingTextFromCardAttribute(textFromMnemoCard, "[date of last recall]"));
+            byte level = byte.Parse(TextController.ParsingTextFromCardAttribute(textFromMnemoCard, "[level-]"));
+            DateTime dateOfNextRecall = DateTime.Parse(TextController.ParsingTextFromCardAttribute(textFromMnemoCard, "[date of next recall]"));
+            string question = TextController.ParsingTextFromCardAttribute(textFromMnemoCard, "[question]");
+            string answer = TextController.ParsingTextFromCardAttribute(textFromMnemoCard, "[answer]");
+            card = new Card
+            {
+                Id = id,
+                DateOfCreation = dateOfCreation,
+                DateOfLastRecall = dateOfLastRecall,
+                Level = level,
+                DateOfNextRecall = dateOfNextRecall,
+                Question = question,
+                Answer = answer
+            };
+            return card;
+        }
+
         // 6.1 Было list стало listOfMnemoCards.
         public static Card GetOldestCard(List<Card> listOfMnemoCards)
         {

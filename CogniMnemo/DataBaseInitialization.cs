@@ -26,13 +26,13 @@ namespace CogniMnemo
 
 			for (int i = 0; i < bufferlist.Count; i++)
 			{
-				success = TextController.ManualInsertCardTextValidation(bufferlist[i]);
+				success = TextController.ManualCardHasAllAttributes(bufferlist[i]);
 				if (success)
 				{
 					filtratedqueue.Enqueue(bufferlist[i]);
 					continue;
 				}
-				success = TextController.AutomatedInsertCardTextValidation(bufferlist[i]);
+				success = TextController.AutomatedCardHasAllAttributes(bufferlist[i]);
 				if (success)
 				{
 					readylist.Add(bufferlist[i]);
