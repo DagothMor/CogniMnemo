@@ -83,6 +83,8 @@ namespace CogniMnemo.Controllers
 					{
 						oldPathString.RemoveAt(i);
 						i--;
+						indexCharEqualDoubleBackSlash = oldPathString[i] == '\\';
+
 					}
 					i++;
 					for (int j = 0; j < newname.Length; j++)
