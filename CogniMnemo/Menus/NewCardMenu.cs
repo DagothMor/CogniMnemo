@@ -37,7 +37,8 @@ namespace CogniMnemo
 			string question;
 			string answer;
 			string input;
-			while (true)
+			bool success = false;
+			while (!success)
 			{
 				Console.WriteLine("Enter the question");
 				question = Console.ReadLine();
@@ -50,16 +51,28 @@ namespace CogniMnemo
 				Console.WriteLine($"Your answer is:{answer}");
 				Console.WriteLine("___");
 				Console.WriteLine($"Correct?Y/N");
-				input = Console.ReadLine();
-				if (input.ToLower() == "y")
-				{
-					CardController.AddAuthomatedCard(question, answer);
-					break;
-				}
-				else
-				{
+
+                while (true)
+                {
+					input = Console.ReadLine();
+					if (input.ToLower() == "y")
+					{
+						CardController.AddAuthomatedCard(question, answer);
+						success = true;
+						break;
+					}
+					if (input.ToLower() == "n")
+					{
+						Console.Clear();
+						success = true;
+						break;
+					}
 					Console.Clear();
-					break;
+					Console.WriteLine($"Your question is:{question}");
+					Console.WriteLine("___");
+					Console.WriteLine($"Your answer is:{answer}");
+					Console.WriteLine("___");
+					Console.WriteLine($"Correct?Y/N");
 				}
 			}
 		}

@@ -11,9 +11,9 @@ namespace CogniMnemo.Menus
 		public static void Start()
 		{
 			//Deleting all files
-			MockController.DeleteAllCardsInDataBase();
+			//MockController.DeleteAllCardsInDataBase();
 			//Fulling with new cards
-			MockController.CreateListOfTemplateCards();
+			//MockController.CreateListOfTemplateCards();
 			//todo:создать уведомление для ос о том что пора вспомнить карту(отталкиваясь от аттрибутов Last recall и level)
 			while (true)
 			{
