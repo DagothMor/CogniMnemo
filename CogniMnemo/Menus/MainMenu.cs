@@ -10,11 +10,13 @@ namespace CogniMnemo.Menus
 	{
 		public static void Start()
 		{
-			//Deleting all files
-			//MockController.DeleteAllCardsInDataBase();
-			//Fulling with new cards
-			//MockController.CreateListOfTemplateCards();
+			// TEST: Удаляем все карты для тестирования функционала.
+			// ОЧИЩАЕТ ПАПКУ БАЗЫ ДАННЫХ ОТ ВСЕХ СОЗДАННЫХ КАРТОЧЕК.
+			DataBaseInitialization.DeleteAllCardsInDataBase();
+			// Заполняем базу данных 
+			MockController.CreateListOfTemplateCards();
 			//todo:создать уведомление для ос о том что пора вспомнить карту(отталкиваясь от аттрибутов Last recall и level)
+			// TODO: Добавить функцию очищения корзины.
 			while (true)
 			{
 				Console.WriteLine($"Welcome {Environment.UserName} to the CorgiMneemo!" + Environment.NewLine +

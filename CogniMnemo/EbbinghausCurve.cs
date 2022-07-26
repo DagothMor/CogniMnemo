@@ -8,6 +8,7 @@ namespace CogniMnemo
 {
 	public static class EbbinghausCurve
 	{
+		//																									TimeSpan(day,hour,minute,second)
 		private static readonly Dictionary<byte, TimeSpan> _ebbinghausCurve = new Dictionary<byte, TimeSpan>() { { 0, new TimeSpan(0,0,5)}
 																											, { 1, new TimeSpan(0,0,25) }
 																											, { 2, new TimeSpan(0,2,0) }

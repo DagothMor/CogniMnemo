@@ -98,5 +98,15 @@ namespace CogniMnemo
 			}
 		}
 
+        // TODO: для безопасности данных, переносить все удаляемые файлы во внутреннюю папку bin
+        public static void DeleteAllCardsInDataBase()
+		{
+			var paths = Directory.GetFiles($"{AppContext.BaseDirectory}" + DATA_BASE_FOLDER);
+			foreach (var path in paths)
+			{
+				File.Delete(path);
+			}
+		}
+
 	}
 }

@@ -21,12 +21,6 @@ namespace CogniMnemo.Controllers
 			CardController.AddAuthomatedCard("kok?", "kok!");
 
 		}
-		public static void DeleteAllCardsInDataBase() {
-			var paths = Directory.GetFiles($"{ AppContext.BaseDirectory }" + DATA_BASE_FOLDER);
-			foreach (var path in paths)
-			{
-				File.Delete(path);
-			}
-		}
+		
 	}
 }
