@@ -6,10 +6,6 @@ using System.Text;
 
 namespace CogniMnemo.Menus
 {
-	/// <summary>
-	/// Developer menu.
-	/// </summary>
-	/// пока не пойму че тут можно добавить
 	public static class DeveloperMenu
 	{
 		public static void Start()

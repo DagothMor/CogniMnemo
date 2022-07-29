@@ -6,18 +6,11 @@ using System.Text;
 
 namespace CogniMnemo.Controllers
 {
-    /// <summary>
-    /// Card controller.
-    /// </summary>
     public static class CardController
     {
         private const string DATA_BASE_FOLDER = @"CorgiMnemoDataBase\";
 
-        /// <summary>
-        /// Added a working card.
-        /// </summary>
-        /// <param name="question">question</param>
-        /// <param name="answer">answer</param>
+        
         public static void AddAuthomatedCard(string question, string answer)
         {
 
@@ -33,10 +26,6 @@ namespace CogniMnemo.Controllers
                 Console.WriteLine(e.Message);
             }
         }
-        /// <summary>
-        /// FullTemplateCardWithAnswerAndQuestion.
-        /// </summary>
-        /// <param name="path"></param>
         public static string FullTemplateCardWithAnswerAndQuestion(string question, string answer)
         {
             // 6.1 Было text, стало textFromMnemoCard
@@ -52,18 +41,15 @@ namespace CogniMnemo.Controllers
             textFromMnemoCard.Append("[answer]" + answer + Environment.NewLine);
             return textFromMnemoCard.ToString();
         }
-        /// <summary>
-        /// Rewriting manual inserted card to working.
-        /// </summary>
-        public static void CreateWorkCardFromManualInsertedCard(string path)
+        public static void CreateWorkCardFromManualInsertedCard(string fullPathToCard)
         {
             try
             {
-                File.WriteAllText(path, string.Empty);
-                var text = File.ReadAllText(path);
+                File.WriteAllText(fullPathToCard, string.Empty);
+                var text = File.ReadAllText(fullPathToCard);
                 string question = TextController.ParsingTextFromCardAttribute(text, "[?]");
                 string answer = TextController.ParsingTextFromCardAttribute(text, "[!]");
-                using (StreamWriter sw = new StreamWriter(path))
+                using (StreamWriter sw = new StreamWriter(fullPathToCard))
                 {
 
                     sw.Write(FullTemplateCardWithAnswerAndQuestion(question, answer));
@@ -75,10 +61,7 @@ namespace CogniMnemo.Controllers
                 Console.WriteLine(e.Message);
             }
         }
-        /// <summary>
-        /// Get count of cards in database.
-        /// </summary>
-        /// <returns></returns>
+        
         public static int GetNumberOfCardsInDataBaseFolder()
         {
             // 6.1 Было count, стало countOfValidatedCards
@@ -91,13 +74,6 @@ namespace CogniMnemo.Controllers
             }
             return countOfValidatedCards;
         }
-
-
-        /// <summary>
-        /// Checking for valid card name.
-        /// </summary>
-        /// <param name="pathfile">path file</param>
-        /// <returns></returns>
         public static bool CardNameIsValid(string pathfile)
         {
             // 7.2 Добавлена bool PathFileIsFound
@@ -112,7 +88,7 @@ namespace CogniMnemo.Controllers
             return false;
         }
         /// <summary>
-        /// needed for pagination
+        /// TODO: needed for pagination
         /// </summary>
         public static void DisplayAllCards()
         {

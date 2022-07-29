@@ -6,9 +6,6 @@ using System.Linq;
 
 namespace CogniMnemo
 {
-	/// <summary>
-	/// Data base initialization.
-	/// </summary>
 	public static class DataBaseInitialization
 	{
         private const string DATA_BASE_FOLDER = @"CorgiMnemoDataBase\";
@@ -87,9 +84,7 @@ namespace CogniMnemo
 				}
 			}
 		}
-		/// <summary>
-		/// Checking for exist folder
-		/// </summary>
+		
 		public static void CheckForExistFolder()
 		{
 			if (!Directory.Exists($"{AppContext.BaseDirectory}" + DATA_BASE_FOLDER))

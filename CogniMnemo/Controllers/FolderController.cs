@@ -6,19 +6,10 @@ using System;
 
 namespace CogniMnemo.Controllers
 {
-	/// <summary>
-	/// Folder Controller.
-	/// </summary>
 	public static class FolderController
 	{
         private const string DATA_BASE_FOLDER = @"CorgiMnemoDataBase\";
 
-        /// <summary>
-        /// Safe file rename.
-        /// </summary>
-        /// <param name="oldPath">old path</param>
-        /// <param name="newPath">new path</param>
-        /// <returns>New renamed file conflicting in the process.</returns>
         public static string SafeFileRename(string oldPath, string newPath)
 		{
 			// было startConflictFileName стало existedConflictFileName
@@ -47,10 +38,6 @@ namespace CogniMnemo.Controllers
 			return finishConflictFileName;
 
 		}
-		/// <summary>
-		/// Get all file names in data base.
-		/// </summary>
-		/// <returns>list of paths</returns>
 		public static List<string> GetAllFileNamesInDataBase()
 		{
 			var PathsOfCardsInDataBase = new List<string>();
@@ -61,12 +48,7 @@ namespace CogniMnemo.Controllers
 			}
 			return PathsOfCardsInDataBase;
 		}
-		/// <summary>
-		/// Creating a new name for file.
-		/// </summary>
-		/// <param name="filepath">path to file</param>
-		/// <param name="newname">new name for file</param>
-		/// <returns>New path</returns>
+		
 		public static string CreateNewNameForFilePath(string filepath, string newname)
 		{
 			// было oldpathlist стало oldpathstring
@@ -102,12 +84,7 @@ namespace CogniMnemo.Controllers
 			}
 			return newfilename.ToString();
 		}
-		/// <summary>
-		/// Create a new copy name for file path.
-		/// </summary>
-		/// <param name="filepath">file path</param>
-		/// <param name="iteration">iteration</param>
-		/// <returns>new copy name for file path</returns>
+		
 		public static string CreateNewCopyNameForFilePath(string filepath, int iteration)
 		{
 			List<char> oldPathString = filepath.ToCharArray().ToList();

@@ -6,16 +6,14 @@ using System.Text;
 
 namespace CogniMnemo.Controllers
 {
-    /// <summary>
-    /// Text controller.
-    /// </summary>
+    
     public static class TextController
     {
         private const string DATA_BASE_FOLDER = @"CorgiMnemoDataBase\";
 
         /// <summary>
         /// </summary>
-        /// <param name="cardText">text of file</param>
+        /// <param name="cardText">text from Card</param>
         /// <param name="currentAttribute">the attribute after which you want to read the text</param>
         /// <returns>text which going after a pointed attribute</returns>
         public static string ParsingTextFromCardAttribute(string cardText, string currentAttribute)
@@ -79,11 +77,9 @@ namespace CogniMnemo.Controllers
             return parsedTextFromCard.ToString();
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="textToReplace">text of file</param>
-        /// <param name="currentAttribute">the attribute after which you want to read the text</param>
-        /// <returns>text which going after a pointed attribute</returns>
+        /// <param name="id">Card identificator</param>
+        /// <param name="currentAttribute">the attribute after which you want to rewrite the text</param>
+        /// <param name="textToReplace">text to replace</param>
         public static void RewriteTextAfterAnInputAttribute(int id, string currentAttribute, string textToReplace) // 6.1 Было newtext стало replacementText
         {
             // Был переименован path в pathToDataBaseFolder
@@ -120,7 +116,6 @@ namespace CogniMnemo.Controllers
                         string attributeWord = attributeWordBuffer.ToString();
                         if (attributes.Contains(attributeWord))
                         {
-                            //textout.ToString().Replace("\r\n", string.Empty);//appendig other files
                             break;
                         }
                         сharsFromCard.RemoveRange(startdeletebufferindex, enddeletebufferindex);
@@ -163,8 +158,6 @@ namespace CogniMnemo.Controllers
                     break;
                 }
             }
-            //cardTextList.Insert(iterationOfCardText, ' ');
-            //iterationOfCardText++;
             for (int i = textToReplace.Length - 1; i > -1; i--)
             {
                 сharsFromCard.Insert(startIndexOfText, textToReplace[i]);
@@ -177,10 +170,6 @@ namespace CogniMnemo.Controllers
             File.WriteAllText(pathToDataBaseFolder, rewritedTextOfCard.ToString());
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="pathfile">path file</param>
-        /// <returns>true if card have all automated attributes</returns>
         public static bool AutomatedCardHasAllAttributes(string pathfile)
         {
             var card = File.ReadAllText(pathfile);
@@ -196,10 +185,6 @@ namespace CogniMnemo.Controllers
             }
             return false;
         }
-        /// <summary>
-        /// </summary>
-        /// <param name="pathfile">path file</param>
-        /// <returns>true if card have all manual attributes</returns>
         public static bool ManualCardHasAllAttributes(string pathfile)
         {
             var card = File.ReadAllText(pathfile);

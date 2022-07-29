@@ -3,9 +3,6 @@ using System;
 
 namespace CogniMnemo.Menus
 {
-	/// <summary>
-	/// Main menu.
-	/// </summary>
 	public static class MainMenu
 	{
 		public static void Start()
@@ -42,27 +39,27 @@ namespace CogniMnemo.Menus
 					Console.Clear();
 					continue;
 				}
-				else if (int.Parse(input) == 1)//Start practicing.
+				else if (int.Parse(input) == 1)
 				{
 					Console.Clear();
 					TrainingMenu.Start();
 				}
-				else if (int.Parse(input) == 2)//Going to the card menu.
+				else if (int.Parse(input) == 2)
 				{
 					Console.Clear();
 					CardMenu.Start();
 				}
-				else if (int.Parse(input) == 3)//Options.
+				else if (int.Parse(input) == 3)
 				{
 					Console.Clear();
 					OptionsMenu.Start();
 				}
-				else if (int.Parse(input) == 4)//Help menu.
+				else if (int.Parse(input) == 4)
 				{
 					Console.Clear();
-					//help menu
+					//TODO: help menu
 				}
-				else if (int.Parse(input) == 5)//Developer menu.
+				else if (int.Parse(input) == 5)
 				{
 					Console.Clear();
 					DeveloperMenu.Start();

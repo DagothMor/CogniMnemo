@@ -61,7 +61,7 @@ namespace CogniMnemo.Menus
 				Console.WriteLine("Enter the answer.");
 				var userAnswer = Console.ReadLine();
 				Console.Clear();
-				Console.WriteLine($"{oldercard.Answer}");//+ Environment.NewLine
+				Console.WriteLine($"{oldercard.Answer}");
 				Console.WriteLine($"your answer:{userAnswer}");
 				while (true)
 				{
